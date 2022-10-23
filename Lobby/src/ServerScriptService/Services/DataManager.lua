@@ -96,4 +96,26 @@ function DataManager:SetSpawn(player, levelNum)
 	end
 end
 
+function DataManager:GiveCash(player, cash)
+	cash = math.floor(cash * (PlayerValues:GetValue(player, "CMulti") or 1))
+
+	DataManager:IncrementValue(player, "Cash", cash)
+	PlayerValues:IncrementValue(player, "Cash", cash, "playerOnly")
+end
+
+function DataManager:GivePower(player, power)
+	DataManager:IncrementValue(player, "Power", power)
+	PlayerValues:IncrementValue(player, "Power", power, "playerOnly")
+end
+
+function DataManager:GiveCMulti(player, cMulti)
+	DataManager:IncrementValue(player, "CMulti", cMulti)
+	PlayerValues:IncrementValue(player, "CMulti", cMulti, "playerOnly")
+end
+
+function DataManager:GiveLuck(player, luck)
+	DataManager:IncrementValue(player, "Luck", luck)
+	PlayerValues:IncrementValue(player, "Luck", luck, "playerOnly")
+end
+
 return DataManager

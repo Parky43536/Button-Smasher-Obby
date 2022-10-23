@@ -41,7 +41,7 @@ local function SetUpButton(levelNum, level)
             if levels[levelNum].Presses > 0 then
                 VisualService.PressButton(button)
 
-                levels[levelNum].Presses = math.clamp(levels[levelNum].Presses - PlayerValues:GetValue(player, "Strength"), 0, 99e99)
+                levels[levelNum].Presses = math.clamp(levels[levelNum].Presses - PlayerValues:GetValue(player, "Power"), 0, 99e99)
                 button.Top.Label.Text = levels[levelNum].Presses
 
                 if levels[levelNum].Presses == 0 then
