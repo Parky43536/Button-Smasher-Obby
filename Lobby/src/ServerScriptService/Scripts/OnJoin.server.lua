@@ -21,6 +21,14 @@ local function playerAdded(newPlayer)
     local profile = getPlayerProfile(newPlayer)
 	if profile ~= nil then
 		loadPlayerProfile(newPlayer, profile)
+
+        local stats = Instance.new("Folder")
+        stats.Name = "leaderstats"
+        local stage = Instance.new("NumberValue")
+        stage.Name = "Level"
+        stage.Value = 0
+        stats.Parent = newPlayer
+        stage.Parent = stats
 	else
         warn("Could not load player profile")
     end
@@ -30,9 +38,6 @@ local function playerAdded(newPlayer)
             if not newPlayer.Character then
                 repeat task.wait(1) until newPlayer.Character
             end
-
-            local light = Instance.new("PointLight")
-            light.Parent = newPlayer.Character.PrimaryPart
         end)
 
         ClientService.InitializeClient(newPlayer, profile)

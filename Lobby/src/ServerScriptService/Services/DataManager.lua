@@ -3,6 +3,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
+local RepServices = ReplicatedStorage.Services
+local PlayerValues = require(RepServices.PlayerValues)
+
 local Helpers = ReplicatedStorage.Helpers
 local ErrorCodeHelper = require(Helpers.ErrorCodeHelper)
 
@@ -62,7 +65,7 @@ function DataManager:IncrementValue(player, property, value)
 	return playerProfile.Data[property]
 end
 
-function DataManager:GetData(player, property)
+function DataManager:GetValue(player, property)
 	local playerProfile = self:GetProfile(player)
 
 	if playerProfile then
@@ -79,6 +82,18 @@ end
 
 function DataManager:GetProfile(player)
 	return self.Profiles[player]
+end
+
+----------------------------------------------------------------------------------
+
+function DataManager:SetSpawn(player, levelNum)
+	if DataManager:GetValue(player, "Level") + 1 == levelNum then
+		DataManager:SetValue(player, "Level", levelNum)
+		PlayerValues:SetValue(player, "Level", levelNum)
+
+		local level = player:FindFirstChild("leaderstats"):FindFirstChild("Level")
+		level.Value += 1
+	end
 end
 
 return DataManager
