@@ -1,5 +1,5 @@
 local ProfileTemplate = {
-    Level = 0,
+    Level = 1,
     Cash = 0,
     Strength = 1,
 }

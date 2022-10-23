@@ -26,7 +26,7 @@ local function playerAdded(newPlayer)
         stats.Name = "leaderstats"
         local stage = Instance.new("NumberValue")
         stage.Name = "Level"
-        stage.Value = 0
+        stage.Value = DataManager:GetValue(newPlayer, "Level")
         stats.Parent = newPlayer
         stage.Parent = stats
 	else
@@ -37,6 +37,15 @@ local function playerAdded(newPlayer)
         task.spawn(function()
             if not newPlayer.Character then
                 repeat task.wait(1) until newPlayer.Character
+            end
+
+            local currentLevel = DataManager:GetValue(newPlayer, "Level")
+            if currentLevel ~= 1 then
+                local physicalLevel = workspace.Levels:FindFirstChild(currentLevel)
+                repeat
+                    newPlayer.Character:PivotTo(physicalLevel.Spawn.CFrame)
+                    task.wait()
+                until (newPlayer.Character:GetPivot().Position - physicalLevel.Spawn.Position).Magnitude < 10
             end
         end)
 
