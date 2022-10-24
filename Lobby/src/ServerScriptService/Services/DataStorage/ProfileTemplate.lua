@@ -1,6 +1,6 @@
 local ProfileTemplate = {
     Level = 1,
-    Cash = 0,
+    Cash = 500,
 
     Power = 1,
     CMulti = 1,

@@ -10,6 +10,15 @@ General.CMultiCost = 200
 General.CMultiIncrease = 100
 General.LuckCost = 50
 General.LuckIncrease = 100
+function General.getCost(typer, current)
+    if typer == "Power" then
+        return General.PowerCost + General.PowerIncrease * (current - 1)
+    elseif typer == "CMulti" then
+        return General.CMultiCost + General.CMultiIncrease * (current - 1)
+    elseif typer == "Luck" then
+        return General.LuckCost + General.LuckIncrease * (current - 1)
+    end
+end
 
 General.StartingPresses = 10
 General.PressedCooldown = 0.1
@@ -20,6 +29,13 @@ function General.PressesCalc(levelNum)
 
     return round10(levelNum * (General.StartingPresses + levelNum * 2))
 end
+
+General.Signs = {
+    [1] = "Click on the button 10 times to open the door",
+    [2] = "Collect cash to buy upgrades in the shop",
+    [3] = "Watch out for bombs and other obstacles",
+    [5] = "Teleport with the levels button",
+}
 
 General.SecondaryColorLerp = 0.2
 General.SupportColor = Color3.fromRGB(0, 0, 0)

@@ -28,8 +28,8 @@ local function randomLevelPoint(level)
     local rng = Random.new()
     local floor = level.Floor
 
-    local x = floor.Position.X + rng:NextInteger(-floor.Size.X/2, floor.Size.X/2)
-    local z = floor.Position.Z + rng:NextInteger(-floor.Size.Z/2, floor.Size.Z/2)
+    local x = floor.Position.X + rng:NextInteger((-floor.Size.X/2) + 2, (floor.Size.X/2) - 2)
+    local z = floor.Position.Z + rng:NextInteger((-floor.Size.Z/2) + 2, (floor.Size.Z/2) - 2)
     local pos = Vector3.new(x, 10, z)
 
     local RayOrigin = pos
@@ -47,7 +47,7 @@ local function getPlayersInRadius(position, radius)
     local currentPlayers = Players:GetChildren()
     local playersInRadius = {}
 
-    radius += 2 --limbs
+    radius += 1 --limbs
 
     for _,player in pairs(currentPlayers) do
         if (player.Character.PrimaryPart.Position - position).Magnitude <= radius then
@@ -179,10 +179,14 @@ function LevelService.Bomb(level, data)
     end
 end
 
-function LevelService.ButtonEvent(level, player)
+function LevelService.ButtonEvent(levelNum, level, player)
     local rng = Random.new()
 
     for key, data in pairs(ChanceData) do
+        if data.levelRequired and levelNum < data.levelRequired then
+            continue
+        end
+
         local playerLuck = PlayerValues:GetValue(player, "Luck")
         local chance = data.chance
 

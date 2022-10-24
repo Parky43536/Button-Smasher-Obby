@@ -38,7 +38,7 @@ local function SetUpButton(levelNum, level)
 
             if levels[levelNum].Presses > 0 then
                 LevelService.PressButton(button)
-                LevelService.ButtonEvent(level, player)
+                LevelService.ButtonEvent(levelNum, level, player)
 
                 levels[levelNum].Presses = math.clamp(levels[levelNum].Presses - PlayerValues:GetValue(player, "Power"), 0, 99e99)
                 button.Top.Label.Text = levels[levelNum].Presses
@@ -66,9 +66,15 @@ local function SetUpGame()
         level.Name = levelNum
         level:PivotTo(CFrame.new(0, 0, -General.FloorSize * (levelNum - 1)))
 
-        level.Sign.Front.Label.Text = levelNum
-        level.Sign.Back.Label.Text = levelNum
+        level.Level.Front.Label.Text = levelNum
+        level.Level.Back.Label.Text = levelNum
         level.Button.Top.Label.Text = levels[levelNum].Presses
+
+        if General.Signs[levelNum] then
+            level.Sign.Top.Label.Text = General.Signs[levelNum]
+        else
+            level.Sign:Destroy()
+        end
 
         SetUpSpawn(levelNum, level)
         SetUpButton(levelNum, level)

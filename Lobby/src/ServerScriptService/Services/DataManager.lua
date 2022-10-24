@@ -95,7 +95,7 @@ end
 function DataManager:SetSpawn(player, levelNum)
 	if DataManager:GetValue(player, "Level") + 1 == levelNum then
 		DataManager:SetValue(player, "Level", levelNum)
-		PlayerValues:SetValue(player, "Level", levelNum)
+		PlayerValues:SetValue(player, "Level", levelNum, "playerOnly")
 
 		local level = player:FindFirstChild("leaderstats"):FindFirstChild("Level")
 		level.Value += 1

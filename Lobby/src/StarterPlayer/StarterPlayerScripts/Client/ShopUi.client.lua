@@ -30,7 +30,7 @@ local function shopUiEnable()
     end
 end
 
-SideFrame.ShopAndStats.Shop.Activated:Connect(function()
+SideFrame.Shop.Activated:Connect(function()
     shopUiEnable()
 end)
 
@@ -84,9 +84,9 @@ local function comma_value(amount)
 end
 
 local function loadCosts()
-    Shop.Power.Cost.Amount.Text = "C " .. comma_value(General.PowerCost + General.PowerIncrease * (PlayerValues:GetValue(LocalPlayer, "Power") - 1))
-    Shop.CMulti.Cost.Amount.Text = "C " .. comma_value(General.CMultiCost + General.CMultiIncrease * (PlayerValues:GetValue(LocalPlayer, "CMulti") - 1))
-    Shop.Luck.Cost.Amount.Text = "C " .. comma_value(General.LuckCost + General.LuckIncrease * (PlayerValues:GetValue(LocalPlayer, "Luck") - 1))
+    Shop.Power.Cost.Amount.Text = "C " .. comma_value(General.getCost("Power", PlayerValues:GetValue(LocalPlayer, "Power")))
+    Shop.CMulti.Cost.Amount.Text = "C " .. comma_value(General.getCost("CMulti", PlayerValues:GetValue(LocalPlayer, "CMulti")))
+    Shop.Luck.Cost.Amount.Text = "C " .. comma_value(General.getCost("Luck", PlayerValues:GetValue(LocalPlayer, "Luck")))
 end
 
 PlayerValues:SetCallback("Power", function()

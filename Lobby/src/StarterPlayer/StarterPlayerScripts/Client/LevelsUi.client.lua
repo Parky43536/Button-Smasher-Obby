@@ -48,27 +48,38 @@ local function levelsUi()
     local currentLevel = PlayerValues:GetValue(LocalPlayer, "Level")
 
     for levelNum = 1 , General.Levels do
+        local level
+
         if not Levels:FindFirstChild(levelNum) then
-            local level = Assets.Ui.Level:Clone()
+            level = Assets.Ui.Level:Clone()
             level.Name = levelNum
             level.Text = levelNum
             level.Parent = Levels
 
             level.Activated:Connect(function()
                 local character = LocalPlayer.Character
-                if character and character.Parent ~= nil then
+                if PlayerValues:GetValue(LocalPlayer, "Level") >= levelNum and character and character.Parent ~= nil then
                     character:PivotTo(workspace.Levels[levelNum].Spawn.CFrame)
                 end
             end)
+        else
+            level = Levels:FindFirstChild(levelNum)
+        end
+
+        if currentLevel >= levelNum then
+            level.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+        else
+            level.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
         end
     end
 end
-
-levelsUi()
 
 PlayerValues:SetCallback("Level", function()
     levelsUi()
 end)
 
 UserInputService.InputBegan:Connect(onKeyPress)
+
+levelsUi()
+
 
