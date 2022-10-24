@@ -1,13 +1,14 @@
 local ChanceData = {
 	["Bomb"] = {
-		chance = 75,
-		size = 20,
+		chance = 40,
+		size = 30,
 		damage = 60,
 		negativeLuck = true,
 	},
 	["Coin"] = {
-		chance = 1,--25,
+		chance = 10,
 		value = 10,
+		despawnTime = 20,
 	},
 }
 return ChanceData

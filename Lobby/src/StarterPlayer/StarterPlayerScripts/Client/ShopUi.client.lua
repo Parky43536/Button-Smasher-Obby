@@ -54,6 +54,20 @@ Shop.Power.Buy.Activated:Connect(function()
     end
 end)
 
+Shop.CMulti.Buy.Activated:Connect(function()
+    if tick() - cooldownTime > cooldown then
+        cooldownTime = tick()
+        BuyConnection:FireServer("CMulti")
+    end
+end)
+
+Shop.Luck.Buy.Activated:Connect(function()
+    if tick() - cooldownTime > cooldown then
+        cooldownTime = tick()
+        BuyConnection:FireServer("Luck")
+    end
+end)
+
 ------------------------------------------------------------------
 
 local function comma_value(amount)

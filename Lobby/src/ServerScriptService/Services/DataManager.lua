@@ -104,7 +104,7 @@ end
 
 function DataManager:GiveCash(player, cash)
 	if cash > 0 then
-		cash = math.floor(cash * (PlayerValues:GetValue(player, "CMulti") or 1))
+		cash = math.floor(cash + (cash * ((PlayerValues:GetValue(player, "CMulti") - 1) / 10)))
 	end
 
 	DataManager:IncrementValue(player, "Cash", cash)
@@ -121,7 +121,7 @@ function DataManager:BuyPower(player)
 	end
 end
 
-function DataManager: BuyCMulti(player)
+function DataManager:BuyCMulti(player)
 	local cost = General.CMultiCost + General.CMultiIncrease * (PlayerValues:GetValue(player, "CMulti") - 1)
 	if PlayerValues:GetValue(player, "Cash") >= cost then
 		DataManager:GiveCash(player, -cost)

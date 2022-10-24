@@ -5,8 +5,8 @@ General.FloorSize = 44
 General.DoorTime = 10
 
 General.PowerCost = 100
-General.PowerIncrease = 50
-General.CMultiCost = 100
+General.PowerIncrease = 100
+General.CMultiCost = 200
 General.CMultiIncrease = 100
 General.LuckCost = 50
 General.LuckIncrease = 50
