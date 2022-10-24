@@ -5,7 +5,7 @@ local General = {}
 --Misc---------------------------------------------
 
 General.Levels = 100
-General.DoorTime = 12
+General.DoorTime = 16
 General.TouchCooldown = 1
 
 --Stats---------------------------------------------
@@ -98,7 +98,7 @@ function General.getPlayersInRadius(position, radius)
     radius += 1 --limbs
 
     for _,player in pairs(currentPlayers) do
-        if player and player.character then
+        if player and player.Character and player.Character.PrimaryPart and player.Character.PrimaryPart.Parent ~= nil then
             if (player.Character.PrimaryPart.Position - position).Magnitude <= radius then
                 table.insert(playersInRadius, player)
             end
