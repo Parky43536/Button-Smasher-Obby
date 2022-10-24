@@ -1,8 +1,13 @@
 local General = {}
 
+--Misc---------------------------------------------
+
 General.Levels = 100
 General.FloorSize = 44
-General.DoorTime = 10
+General.DoorTime = 20
+General.TouchCooldown = 1
+
+--Stats---------------------------------------------
 
 General.PowerCost = 100
 General.PowerIncrease = 100
@@ -20,6 +25,8 @@ function General.getCost(typer, current)
     end
 end
 
+--Buttons---------------------------------------------
+
 General.StartingPresses = 10
 General.PressedCooldown = 0.1
 function General.PressesCalc(levelNum)
@@ -35,7 +42,10 @@ General.Signs = {
     [2] = "Collect cash to buy upgrades in the shop",
     [3] = "Watch out for bombs and other obstacles",
     [5] = "Teleport with the levels button",
+    [10] = "Beware of lava",
 }
+
+--Colors---------------------------------------------
 
 General.SecondaryColorLerp = 0.2
 General.SupportColor = Color3.fromRGB(0, 0, 0)
