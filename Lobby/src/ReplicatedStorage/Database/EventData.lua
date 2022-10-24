@@ -3,9 +3,16 @@ local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
 
 local EventData = {
-	["LavaLine"] = {
+	["SpeedingWall"] = {
 		chance = 60,
 		levels = {min = 20, max = General.Levels},
+		negativeLuck = true,
+
+		travelTime = 4,
+	},
+	["LavaLine"] = {
+		chance = 60,
+		levels = {min = 15, max = General.Levels},
 		negativeLuck = true,
 
 		despawnTime = 6,

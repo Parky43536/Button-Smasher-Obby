@@ -5,7 +5,7 @@ local General = {}
 --Misc---------------------------------------------
 
 General.Levels = 100
-General.DoorTime = 20
+General.DoorTime = 12
 General.TouchCooldown = 1
 
 --Stats---------------------------------------------
@@ -40,11 +40,12 @@ end
 
 General.Signs = {
     [1] = "Click on the button 10 times to open the door",
-    [2] = "Collect cash to buy upgrades in the shop",
+    [2] = "Collect coins to buy upgrades in the shop",
     [3] = "Watch out for bombs and other obstacles",
     [5] = "Teleport with the levels button",
     [10] = "Spikes will now appear",
-    [20] = "Lava will now appear",
+    [15] = "Lava will now appear",
+    [20] = "Speeding Walls will now appear",
 }
 
 --Colors---------------------------------------------
@@ -70,12 +71,13 @@ General.Colors = {
 
 --Functions---------------------------------------------
 
-function General.randomLevelPoint(level)
+function General.randomLevelPoint(level, offset)
     local rng = Random.new()
     local floor = level.Floor
+    if not offset then offset = 2 end
 
-    local x = floor.Position.X + rng:NextInteger((-floor.Size.X/2) + 2, (floor.Size.X/2) - 2)
-    local z = floor.Position.Z + rng:NextInteger((-floor.Size.Z/2) + 2, (floor.Size.Z/2) - 2)
+    local x = floor.Position.X + rng:NextInteger((-floor.Size.X/2) + offset, (floor.Size.X/2) - offset)
+    local z = floor.Position.Z + rng:NextInteger((-floor.Size.Z/2) + offset, (floor.Size.Z/2) - offset)
     local pos = Vector3.new(x, 10, z)
 
     local RayOrigin = pos
@@ -96,8 +98,10 @@ function General.getPlayersInRadius(position, radius)
     radius += 1 --limbs
 
     for _,player in pairs(currentPlayers) do
-        if (player.Character.PrimaryPart.Position - position).Magnitude <= radius then
-            table.insert(playersInRadius, player)
+        if player and player.character then
+            if (player.Character.PrimaryPart.Position - position).Magnitude <= radius then
+                table.insert(playersInRadius, player)
+            end
         end
     end
 
