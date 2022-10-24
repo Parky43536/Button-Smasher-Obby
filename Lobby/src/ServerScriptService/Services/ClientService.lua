@@ -5,6 +5,7 @@ local PlayerValues = require(RepServices.PlayerValues)
 
 local Remotes = ReplicatedStorage.Remotes
 local ClientConnection = Remotes.ClientConnection
+local ShopConnection = Remotes.ShopConnection
 
 local ClientService = {}
 
@@ -15,7 +16,8 @@ function ClientService.InitializeClient(player, profile)
     PlayerValues:SetValue(player, "CMulti", profile.Data.Power, "playerOnly")
     PlayerValues:SetValue(player, "Luck", profile.Data.Power, "playerOnly")
 
-    ClientConnection:FireClient(player, "loadPlayerValues")
+    ClientConnection:FireClient(player)
+    ShopConnection:FireClient(player)
 end
 
 return ClientService

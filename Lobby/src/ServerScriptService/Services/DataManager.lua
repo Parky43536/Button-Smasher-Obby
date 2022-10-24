@@ -9,6 +9,12 @@ local PlayerValues = require(RepServices.PlayerValues)
 local Helpers = ReplicatedStorage.Helpers
 local ErrorCodeHelper = require(Helpers.ErrorCodeHelper)
 
+local Utility = ReplicatedStorage.Utility
+local General = require(Utility.General)
+
+local Remotes = ReplicatedStorage.Remotes
+local BuyConnection = Remotes.BuyConnection
+
 local SerServices = ServerScriptService.Services
 local DataStorage = SerServices.DataStorage
 local ProfileService = require(DataStorage.ProfileService)
@@ -97,25 +103,52 @@ function DataManager:SetSpawn(player, levelNum)
 end
 
 function DataManager:GiveCash(player, cash)
-	cash = math.floor(cash * (PlayerValues:GetValue(player, "CMulti") or 1))
+	if cash > 0 then
+		cash = math.floor(cash * (PlayerValues:GetValue(player, "CMulti") or 1))
+	end
 
 	DataManager:IncrementValue(player, "Cash", cash)
 	PlayerValues:IncrementValue(player, "Cash", cash, "playerOnly")
 end
 
-function DataManager:GivePower(player, power)
-	DataManager:IncrementValue(player, "Power", power)
-	PlayerValues:IncrementValue(player, "Power", power, "playerOnly")
+function DataManager:BuyPower(player)
+	local cost = General.PowerCost + General.PowerIncrease * (PlayerValues:GetValue(player, "Power") - 1)
+	if PlayerValues:GetValue(player, "Cash") >= cost then
+		DataManager:GiveCash(player, -cost)
+
+		DataManager:IncrementValue(player, "Power", 1)
+		PlayerValues:IncrementValue(player, "Power", 1, "playerOnly")
+	end
 end
 
-function DataManager:GiveCMulti(player, cMulti)
-	DataManager:IncrementValue(player, "CMulti", cMulti)
-	PlayerValues:IncrementValue(player, "CMulti", cMulti, "playerOnly")
+function DataManager: BuyCMulti(player)
+	local cost = General.CMultiCost + General.CMultiIncrease * (PlayerValues:GetValue(player, "CMulti") - 1)
+	if PlayerValues:GetValue(player, "Cash") >= cost then
+		DataManager:GiveCash(player, -cost)
+
+		DataManager:IncrementValue(player, "CMulti", 1)
+		PlayerValues:IncrementValue(player, "CMulti", 1, "playerOnly")
+	end
 end
 
-function DataManager:GiveLuck(player, luck)
-	DataManager:IncrementValue(player, "Luck", luck)
-	PlayerValues:IncrementValue(player, "Luck", luck, "playerOnly")
+function DataManager:BuyLuck(player)
+	local cost = General.LuckCost + General.LuckIncrease * (PlayerValues:GetValue(player, "Luck") - 1)
+	if PlayerValues:GetValue(player, "Cash") >= cost then
+		DataManager:GiveCash(player, -cost)
+
+		DataManager:IncrementValue(player, "Luck", 1)
+		PlayerValues:IncrementValue(player, "Luck", 1, "playerOnly")
+	end
 end
+
+BuyConnection.OnServerEvent:Connect(function(player, action)
+	if action == "Power" then
+		DataManager:BuyPower(player)
+	elseif action == "CMulti" then
+		DataManager:BuyCMulti(player)
+	elseif action == "Luck" then
+		DataManager:BuyLuck(player)
+	end
+end)
 
 return DataManager

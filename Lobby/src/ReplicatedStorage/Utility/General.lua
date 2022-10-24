@@ -1,12 +1,18 @@
 local General = {}
 
 General.Levels = 100
-General.StartingPresses = 10
 General.FloorSize = 44
-
-General.PressedCooldown = 0.1
 General.DoorTime = 10
 
+General.PowerCost = 100
+General.PowerIncrease = 50
+General.CMultiCost = 100
+General.CMultiIncrease = 100
+General.LuckCost = 50
+General.LuckIncrease = 50
+
+General.StartingPresses = 10
+General.PressedCooldown = 0.1
 function General.PressesCalc(levelNum)
     local function round10(num)
         return math.floor(num / 10 + 0.5) * 10

@@ -4,9 +4,7 @@ local ServerScriptService = game:GetService("ServerScriptService")
 
 local SerServices = ServerScriptService.Services
 local DataManager = require(SerServices.DataManager)
-
-local SerScripts = ServerScriptService.Scripts
-local VisualService = require(SerScripts.VisualService)
+local LevelService = require(SerServices.LevelService)
 
 local RepServices = ReplicatedStorage.Services
 local PlayerValues = require(RepServices.PlayerValues)
@@ -39,13 +37,14 @@ local function SetUpButton(levelNum, level)
             levels[levelNum].LastPress[player] = tick()
 
             if levels[levelNum].Presses > 0 then
-                VisualService.PressButton(button)
+                LevelService.PressButton(button)
+                LevelService.ButtonEvent(level, player)
 
                 levels[levelNum].Presses = math.clamp(levels[levelNum].Presses - PlayerValues:GetValue(player, "Power"), 0, 99e99)
                 button.Top.Label.Text = levels[levelNum].Presses
 
                 if levels[levelNum].Presses == 0 then
-                    VisualService.OpenDoors(level)
+                    LevelService.OpenDoors(level)
                     levels[levelNum].DoorOpened = true
 
                     task.wait(General.DoorTime)
@@ -73,7 +72,7 @@ local function SetUpGame()
 
         SetUpSpawn(levelNum, level)
         SetUpButton(levelNum, level)
-        VisualService.SetUpLevelColor(levelNum, level)
+        LevelService.SetUpLevelColor(levelNum, level)
 
         level.Parent = workspace.Levels
     end
