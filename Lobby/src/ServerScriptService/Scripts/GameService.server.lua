@@ -64,7 +64,7 @@ local function SetUpGame()
 
         local level = Assets.Levels.Level:Clone()
         level.Name = levelNum
-        level:PivotTo(CFrame.new(0, 0, -General.FloorSize * (levelNum - 1)))
+        level:PivotTo(CFrame.new(0, 0, -44 * (levelNum - 1)))
 
         level.Level.Front.Label.Text = levelNum
         level.Level.Back.Label.Text = levelNum

@@ -114,30 +114,27 @@ end
 function DataManager:BuyPower(player)
 	local cost = General.PowerCost + General.PowerIncrease * (PlayerValues:GetValue(player, "Power") - 1)
 	if PlayerValues:GetValue(player, "Cash") >= cost then
-		DataManager:GiveCash(player, -cost)
-
 		DataManager:IncrementValue(player, "Power", 1)
 		PlayerValues:IncrementValue(player, "Power", 1, "playerOnly")
+		DataManager:GiveCash(player, -cost)
 	end
 end
 
 function DataManager:BuyCMulti(player)
 	local cost = General.CMultiCost + General.CMultiIncrease * (PlayerValues:GetValue(player, "CMulti") - 1)
 	if PlayerValues:GetValue(player, "Cash") >= cost then
-		DataManager:GiveCash(player, -cost)
-
 		DataManager:IncrementValue(player, "CMulti", 1)
 		PlayerValues:IncrementValue(player, "CMulti", 1, "playerOnly")
+		DataManager:GiveCash(player, -cost)
 	end
 end
 
 function DataManager:BuyLuck(player)
 	local cost = General.LuckCost + General.LuckIncrease * (PlayerValues:GetValue(player, "Luck") - 1)
 	if PlayerValues:GetValue(player, "Cash") >= cost then
-		DataManager:GiveCash(player, -cost)
-
 		DataManager:IncrementValue(player, "Luck", 1)
 		PlayerValues:IncrementValue(player, "Luck", 1, "playerOnly")
+		DataManager:GiveCash(player, -cost)
 	end
 end
 

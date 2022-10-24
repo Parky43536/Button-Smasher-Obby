@@ -1,9 +1,10 @@
+local Players = game:GetService("Players")
+
 local General = {}
 
 --Misc---------------------------------------------
 
 General.Levels = 100
-General.FloorSize = 44
 General.DoorTime = 20
 General.TouchCooldown = 1
 
@@ -34,7 +35,7 @@ function General.PressesCalc(levelNum)
         return math.floor(num / 10 + 0.5) * 10
     end
 
-    return round10(levelNum * (General.StartingPresses + levelNum * 2))
+    return round10((levelNum * (General.StartingPresses + levelNum * 2)) + math.pow(2, levelNum/5))
 end
 
 General.Signs = {
@@ -42,7 +43,8 @@ General.Signs = {
     [2] = "Collect cash to buy upgrades in the shop",
     [3] = "Watch out for bombs and other obstacles",
     [5] = "Teleport with the levels button",
-    [10] = "Beware of lava",
+    [10] = "Spikes will now appear",
+    [20] = "Lava will now appear",
 }
 
 --Colors---------------------------------------------
@@ -65,5 +67,41 @@ General.Colors = {
     Color3.fromRGB(255, 255, 255),
     Color3.fromRGB(150, 150, 150),
 }
+
+--Functions---------------------------------------------
+
+function General.randomLevelPoint(level)
+    local rng = Random.new()
+    local floor = level.Floor
+
+    local x = floor.Position.X + rng:NextInteger((-floor.Size.X/2) + 2, (floor.Size.X/2) - 2)
+    local z = floor.Position.Z + rng:NextInteger((-floor.Size.Z/2) + 2, (floor.Size.Z/2) - 2)
+    local pos = Vector3.new(x, 10, z)
+
+    local RayOrigin = pos
+    local RayDirection = Vector3.new(0, -100, 0)
+
+    local Params = RaycastParams.new()
+    Params.FilterType = Enum.RaycastFilterType.Whitelist
+    Params.FilterDescendantsInstances = {floor}
+
+    local Result = workspace:Raycast(RayOrigin, RayDirection, Params)
+    return Result
+end
+
+function General.getPlayersInRadius(position, radius)
+    local currentPlayers = Players:GetChildren()
+    local playersInRadius = {}
+
+    radius += 1 --limbs
+
+    for _,player in pairs(currentPlayers) do
+        if (player.Character.PrimaryPart.Position - position).Magnitude <= radius then
+            table.insert(playersInRadius, player)
+        end
+    end
+
+    return playersInRadius
+end
 
 return General

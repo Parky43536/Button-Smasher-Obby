@@ -1,6 +1,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
 
 local LocalPlayer = Players.LocalPlayer
 
@@ -58,8 +59,10 @@ local function levelsUi()
 
             level.Activated:Connect(function()
                 local character = LocalPlayer.Character
-                if PlayerValues:GetValue(LocalPlayer, "Level") >= levelNum and character and character.Parent ~= nil then
-                    character:PivotTo(workspace.Levels[levelNum].Spawn.CFrame)
+                if RunService:IsStudio() or PlayerValues:GetValue(LocalPlayer, "Level") >= levelNum then
+                    if character and character.Parent ~= nil then
+                        character:PivotTo(workspace.Levels[levelNum].Spawn.CFrame)
+                    end
                 end
             end)
         else
