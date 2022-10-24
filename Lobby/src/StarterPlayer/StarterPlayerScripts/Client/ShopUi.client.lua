@@ -13,6 +13,7 @@ local General = require(Utility.General)
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local PlayerUi = PlayerGui:WaitForChild("PlayerUi")
 local SideFrame = PlayerUi:WaitForChild("SideFrame")
+local LevelsUi = PlayerGui:WaitForChild("LevelsUi")
 local ShopUi = PlayerGui:WaitForChild("ShopUi")
 local Shop = ShopUi.ShopFrame.ScrollingFrame
 
@@ -25,6 +26,7 @@ local function shopUiEnable()
         ShopUi.Enabled = false
     else
         ShopUi.Enabled = true
+        LevelsUi.Enabled = false
     end
 end
 

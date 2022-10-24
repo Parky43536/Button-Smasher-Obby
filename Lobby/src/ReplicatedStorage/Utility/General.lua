@@ -9,7 +9,7 @@ General.PowerIncrease = 100
 General.CMultiCost = 200
 General.CMultiIncrease = 100
 General.LuckCost = 50
-General.LuckIncrease = 50
+General.LuckIncrease = 100
 
 General.StartingPresses = 10
 General.PressedCooldown = 0.1

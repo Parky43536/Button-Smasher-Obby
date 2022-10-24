@@ -115,7 +115,7 @@ end
 function LevelService.Coin(level, data)
     local rlp = randomLevelPoint(level)
     if rlp then
-        local coin = Assets.Coin:Clone()
+        local coin = Assets.Levels.Coin:Clone()
         coin.Position = rlp.Position + Vector3.new(0, 3.5, 0)
         coin.Parent = workspace.Misc
 
@@ -145,7 +145,7 @@ end
 function LevelService.Bomb(level, data)
     local rlp = randomLevelPoint(level)
     if rlp then
-        local bomb = Assets.Bomb:Clone()
+        local bomb = Assets.Levels.Bomb:Clone()
         bomb.Position = rlp.Position + Vector3.new(0, 3.5, 0)
         bomb.Parent = workspace.Misc
 
@@ -159,7 +159,7 @@ function LevelService.Bomb(level, data)
             end
         end
 
-        local particle = Assets.Explosion:Clone()
+        local particle = Assets.Levels.Explosion:Clone()
         particle:PivotTo(bomb.CFrame)
         particle.Parent = workspace
 

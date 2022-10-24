@@ -62,7 +62,7 @@ local function SetUpGame()
     for levelNum = 1 , General.Levels do
         levels[levelNum] = {Presses = General.PressesCalc(levelNum), LastPress = {}, DoorOpened = false}
 
-        local level = Assets.Level:Clone()
+        local level = Assets.Levels.Level:Clone()
         level.Name = levelNum
         level:PivotTo(CFrame.new(0, 0, -General.FloorSize * (levelNum - 1)))
 
