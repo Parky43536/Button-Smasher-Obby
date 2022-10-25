@@ -19,7 +19,7 @@ local Shop = ShopUi.ShopFrame.ScrollingFrame
 
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local ShopConnection = Remotes:WaitForChild("ShopConnection")
-local BuyConnection = Remotes:WaitForChild("BuyConnection")
+local DataConnection = Remotes:WaitForChild("DataConnection")
 
 local function shopUiEnable()
     if ShopUi.Enabled == true then
@@ -52,21 +52,28 @@ local cooldownTime = tick()
 Shop.Power.Buy.Activated:Connect(function()
     if tick() - cooldownTime > cooldown then
         cooldownTime = tick()
-        BuyConnection:FireServer("Power")
+        DataConnection:FireServer("Power")
+    end
+end)
+
+Shop.AClick.Buy.Activated:Connect(function()
+    if tick() - cooldownTime > cooldown then
+        cooldownTime = tick()
+        DataConnection:FireServer("AClick")
     end
 end)
 
 Shop.CMulti.Buy.Activated:Connect(function()
     if tick() - cooldownTime > cooldown then
         cooldownTime = tick()
-        BuyConnection:FireServer("CMulti")
+        DataConnection:FireServer("CMulti")
     end
 end)
 
 Shop.Luck.Buy.Activated:Connect(function()
     if tick() - cooldownTime > cooldown then
         cooldownTime = tick()
-        BuyConnection:FireServer("Luck")
+        DataConnection:FireServer("Luck")
     end
 end)
 
@@ -85,11 +92,16 @@ end
 
 local function loadCosts()
     Shop.Power.Cost.Amount.Text = "C " .. comma_value(General.getCost("Power", PlayerValues:GetValue(LocalPlayer, "Power")))
+    Shop.AClick.Cost.Amount.Text = "C " .. comma_value(General.getCost("AClick", PlayerValues:GetValue(LocalPlayer, "AClick")))
     Shop.CMulti.Cost.Amount.Text = "C " .. comma_value(General.getCost("CMulti", PlayerValues:GetValue(LocalPlayer, "CMulti")))
     Shop.Luck.Cost.Amount.Text = "C " .. comma_value(General.getCost("Luck", PlayerValues:GetValue(LocalPlayer, "Luck")))
 end
 
 PlayerValues:SetCallback("Power", function()
+    loadCosts()
+end)
+
+PlayerValues:SetCallback("AClick", function()
     loadCosts()
 end)
 

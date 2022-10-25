@@ -34,8 +34,11 @@ local currentAlertTween
 local function shopAlert(cash)
     local alert = SideFrame.Alerts.ShopAlert
 
-    local alertPower = 5
+    local alertPower = 7
     if cash >= General.getCost("Power", PlayerValues:GetValue(LocalPlayer, "Power")) then
+        alertPower /= 2
+    end
+    if cash >= General.getCost("AClick", PlayerValues:GetValue(LocalPlayer, "AClick")) then
         alertPower /= 2
     end
     if cash >= General.getCost("CMulti", PlayerValues:GetValue(LocalPlayer, "CMulti")) then
@@ -45,7 +48,7 @@ local function shopAlert(cash)
         alertPower /= 2
     end
 
-    if alertPower < 5 then
+    if alertPower < 7 then
         if alertPower ~= currentPower then
             currentPower = true
             alert.Visible = true
@@ -101,6 +104,7 @@ end
 
 local function loadStats()
     SideFrame.Stats.Power.Text = "Power: " .. PlayerValues:GetValue(LocalPlayer, "Power")
+    SideFrame.Stats.AClick.Text = "A. Click: " .. PlayerValues:GetValue(LocalPlayer, "AClick")
     SideFrame.Stats.CMulti.Text = "C. Multi: " .. PlayerValues:GetValue(LocalPlayer, "CMulti")
     SideFrame.Stats.Luck.Text = "Luck: " .. PlayerValues:GetValue(LocalPlayer, "Luck")
 end
@@ -110,6 +114,10 @@ PlayerValues:SetCallback("Cash", function(player, value)
 end)
 
 PlayerValues:SetCallback("Power", function()
+    loadStats()
+end)
+
+PlayerValues:SetCallback("AClick", function()
     loadStats()
 end)
 

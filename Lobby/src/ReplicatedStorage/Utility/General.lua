@@ -12,6 +12,8 @@ General.TouchCooldown = 1
 
 General.PowerCost = 100
 General.PowerIncrease = 100
+General.AClickCost = 250
+General.AClickIncrease = 250
 General.CMultiCost = 200
 General.CMultiIncrease = 100
 General.LuckCost = 50
@@ -19,10 +21,12 @@ General.LuckIncrease = 100
 function General.getCost(typer, current)
     if typer == "Power" then
         return General.PowerCost + General.PowerIncrease * (current - 1)
+    elseif typer == "AClick" then
+        return General.AClickCost + General.AClickIncrease * (current)
     elseif typer == "CMulti" then
-        return General.CMultiCost + General.CMultiIncrease * (current - 1)
+        return General.CMultiCost + General.CMultiIncrease * (current)
     elseif typer == "Luck" then
-        return General.LuckCost + General.LuckIncrease * (current - 1)
+        return General.LuckCost + General.LuckIncrease * (current)
     end
 end
 
@@ -43,9 +47,9 @@ General.Signs = {
     [2] = "Collect coins to buy upgrades in the shop",
     [3] = "Watch out for bombs and other obstacles",
     [5] = "Teleport with the levels button",
-    [10] = "Spikes will now appear",
-    [15] = "Lava will now appear",
-    [20] = "Speeding Walls will now appear",
+    [7] = "Spikes will now appear",
+    [10] = "Lava will now appear",
+    [15] = "Speeding Walls will now appear",
 }
 
 --Colors---------------------------------------------

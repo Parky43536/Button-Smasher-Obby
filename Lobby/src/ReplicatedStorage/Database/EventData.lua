@@ -5,14 +5,14 @@ local General = require(Utility.General)
 local EventData = {
 	["SpeedingWall"] = {
 		chance = 60,
-		levels = {min = 20, max = General.Levels},
+		levels = {min = 15, max = General.Levels},
 		negativeLuck = true,
 
 		travelTime = 4,
 	},
 	["LavaLine"] = {
 		chance = 60,
-		levels = {min = 15, max = General.Levels},
+		levels = {min = 10, max = General.Levels},
 		negativeLuck = true,
 
 		despawnTime = 6,
@@ -21,7 +21,7 @@ local EventData = {
 	},
 	["Spike"] = {
 		chance = 35,
-		levels = {min = 10, max = General.Levels},
+		levels = {min = 7, max = General.Levels},
 		negativeLuck = true,
 
 		despawnTime = 6,

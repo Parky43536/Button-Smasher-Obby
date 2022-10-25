@@ -18,8 +18,6 @@ local AudioService = require(Utility.AudioService)
 
 local LevelService = {}
 
---Visuals------------------------------------------------
-
 local ButtonPositionSaver = {}
 function LevelService.PressButton(button)
     if not ButtonPositionSaver[button] then ButtonPositionSaver[button] = button.Position end
@@ -83,7 +81,7 @@ function LevelService.ButtonEvent(levelNum, level, player)
         local chance = data.chance
 
         if data.negativeLuck then
-            chance += (playerLuck - 1)
+            chance += playerLuck
         end
 
         if rng:NextInteger(1, chance) <= 1 + (playerLuck / 10) then
