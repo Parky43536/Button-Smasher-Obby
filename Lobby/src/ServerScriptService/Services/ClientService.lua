@@ -9,7 +9,7 @@ local GameService = require(SerServices.GameService)
 
 local Remotes = ReplicatedStorage.Remotes
 local ClientConnection = Remotes.ClientConnection
-local ShopConnection = Remotes.ShopConnection
+local UpgradeConnection = Remotes.UpgradeConnection
 
 local ClientService = {}
 
@@ -31,7 +31,7 @@ function ClientService.InitializeClient(player, profile)
     PlayerValues:SetValue(player, "Luck", profile.Data.Luck, "playerOnly")
 
     ClientConnection:FireClient(player)
-    ShopConnection:FireClient(player)
+    UpgradeConnection:FireClient(player)
 end
 
 return ClientService

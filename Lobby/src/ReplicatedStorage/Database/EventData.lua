@@ -3,15 +3,25 @@ local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
 
 local EventData = {
+	["LaserWall"] = {
+		chance = 60,
+		levels = {min = 20, max = General.Levels},
+		negativeLuck = true,
+
+		despawnTime = 10,
+		riseDelayTime = 0.5,
+		laserDelayTime = 0.5,
+		damage = 30,
+	},
 	["SpeedingWall"] = {
 		chance = 60,
 		levels = {min = 15, max = General.Levels},
 		negativeLuck = true,
 
-		travelTime = 4,
+		travelTime = 3.5,
 	},
 	["LavaLine"] = {
-		chance = 60,
+		chance = 55,
 		levels = {min = 10, max = General.Levels},
 		negativeLuck = true,
 
@@ -24,7 +34,7 @@ local EventData = {
 		levels = {min = 7, max = General.Levels},
 		negativeLuck = true,
 
-		despawnTime = 6,
+		despawnTime = 10,
 		delayTime = 0.5,
 		damage = 30,
 	},

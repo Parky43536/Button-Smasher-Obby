@@ -15,10 +15,11 @@ local PlayerUi = PlayerGui:WaitForChild("PlayerUi")
 local SideFrame = PlayerUi:WaitForChild("SideFrame")
 local LevelsUi = PlayerGui:WaitForChild("LevelsUi")
 local ShopUi = PlayerGui:WaitForChild("ShopUi")
+local UpgradeUi = PlayerGui:WaitForChild("UpgradeUi")
 local Shop = ShopUi.ShopFrame.ScrollingFrame
 
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
-local ShopConnection = Remotes:WaitForChild("ShopConnection")
+local UpgradeConnection = Remotes:WaitForChild("UpgradeConnection")
 local DataConnection = Remotes:WaitForChild("DataConnection")
 
 local function shopUiEnable()
@@ -27,6 +28,7 @@ local function shopUiEnable()
     else
         ShopUi.Enabled = true
         LevelsUi.Enabled = false
+        UpgradeUi.Enabled = false
     end
 end
 
@@ -45,76 +47,5 @@ local function onKeyPress(input, gameProcessedEvent)
 end
 
 ------------------------------------------------------------------
-
-local cooldown = 0.2
-local cooldownTime = tick()
-
-Shop.Power.Buy.Activated:Connect(function()
-    if tick() - cooldownTime > cooldown then
-        cooldownTime = tick()
-        DataConnection:FireServer("Power")
-    end
-end)
-
-Shop.AClick.Buy.Activated:Connect(function()
-    if tick() - cooldownTime > cooldown then
-        cooldownTime = tick()
-        DataConnection:FireServer("AClick")
-    end
-end)
-
-Shop.CMulti.Buy.Activated:Connect(function()
-    if tick() - cooldownTime > cooldown then
-        cooldownTime = tick()
-        DataConnection:FireServer("CMulti")
-    end
-end)
-
-Shop.Luck.Buy.Activated:Connect(function()
-    if tick() - cooldownTime > cooldown then
-        cooldownTime = tick()
-        DataConnection:FireServer("Luck")
-    end
-end)
-
-------------------------------------------------------------------
-
-local function comma_value(amount)
-    local formatted = amount
-    while true do
-      formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
-        if (k == 0) then
-            break
-        end
-    end
-    return formatted
-end
-
-local function loadCosts()
-    Shop.Power.Cost.Amount.Text = "C " .. comma_value(General.getCost("Power", PlayerValues:GetValue(LocalPlayer, "Power")))
-    Shop.AClick.Cost.Amount.Text = "C " .. comma_value(General.getCost("AClick", PlayerValues:GetValue(LocalPlayer, "AClick")))
-    Shop.CMulti.Cost.Amount.Text = "C " .. comma_value(General.getCost("CMulti", PlayerValues:GetValue(LocalPlayer, "CMulti")))
-    Shop.Luck.Cost.Amount.Text = "C " .. comma_value(General.getCost("Luck", PlayerValues:GetValue(LocalPlayer, "Luck")))
-end
-
-PlayerValues:SetCallback("Power", function()
-    loadCosts()
-end)
-
-PlayerValues:SetCallback("AClick", function()
-    loadCosts()
-end)
-
-PlayerValues:SetCallback("CMulti", function()
-    loadCosts()
-end)
-
-PlayerValues:SetCallback("Luck", function()
-    loadCosts()
-end)
-
-ShopConnection.OnClientEvent:Connect(function()
-    loadCosts()
-end)
 
 UserInputService.InputBegan:Connect(onKeyPress)

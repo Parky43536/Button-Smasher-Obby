@@ -21,6 +21,7 @@ local PlayerUi = PlayerGui:WaitForChild("PlayerUi")
 local SideFrame = PlayerUi:WaitForChild("SideFrame")
 local LevelsUi = PlayerGui:WaitForChild("LevelsUi")
 local ShopUi = PlayerGui:WaitForChild("ShopUi")
+local UpgradeUi = PlayerGui:WaitForChild("UpgradeUi")
 local Levels = LevelsUi.LevelsFrame.ScrollingFrame
 
 local function levelsUiEnable()
@@ -29,6 +30,7 @@ local function levelsUiEnable()
     else
         LevelsUi.Enabled = true
         ShopUi.Enabled = false
+        UpgradeUi.Enabled = false
     end
 end
 
@@ -41,7 +43,7 @@ LevelsUi.LevelsFrame.TopFrame.Close.Activated:Connect(function()
 end)
 
 local function onKeyPress(input, gameProcessedEvent)
-	if input.KeyCode == Enum.KeyCode.X and gameProcessedEvent == false then
+	if input.KeyCode == Enum.KeyCode.E and gameProcessedEvent == false then
 		levelsUiEnable()
 	end
 end

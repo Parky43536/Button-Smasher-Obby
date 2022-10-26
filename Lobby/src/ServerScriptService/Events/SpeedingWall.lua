@@ -17,7 +17,7 @@ local Event = {}
 function Event.Main(levelNum, level, data)
     local rlp = General.randomLevelPoint(level, 6)
     if rlp then
-        local wall = Assets.Levels.Wall:Clone()
+        local wall = Assets.Levels.SpeedingWall:Clone()
         wall.BrickColor = BrickColor.random()
         wall.CFrame = level.Floor.CFrame
         wall.Position = Vector3.new(wall.Position.X, rlp.Position.Y + wall.Size.Y/2, rlp.Position.Z)

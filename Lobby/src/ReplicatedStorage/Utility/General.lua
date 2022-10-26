@@ -5,7 +5,7 @@ local General = {}
 --Misc---------------------------------------------
 
 General.Levels = 100
-General.DoorTime = 16
+General.DoorTime = 20
 General.TouchCooldown = 1
 
 --Stats---------------------------------------------
@@ -50,6 +50,7 @@ General.Signs = {
     [7] = "Spikes will now appear",
     [10] = "Lava will now appear",
     [15] = "Speeding Walls will now appear",
+    [20] = "Laser Walls will now appear",
 }
 
 --Colors---------------------------------------------
