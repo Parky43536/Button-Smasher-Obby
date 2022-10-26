@@ -103,10 +103,10 @@ local function loadCash(value)
 end
 
 local function loadStats()
-    SideFrame.Stats.Power.Text = "Power: " .. PlayerValues:GetValue(LocalPlayer, "Power")
-    SideFrame.Stats.AClick.Text = "A. Click: " .. PlayerValues:GetValue(LocalPlayer, "AClick")
-    SideFrame.Stats.CMulti.Text = "C. Multi: " .. PlayerValues:GetValue(LocalPlayer, "CMulti")
-    SideFrame.Stats.Luck.Text = "Luck: " .. PlayerValues:GetValue(LocalPlayer, "Luck")
+    SideFrame.Stats.Power.Text = "Power: " .. PlayerValues:GetValue(LocalPlayer, "Power") or General.PowerDefault
+    SideFrame.Stats.AClick.Text = "A. Click: " .. PlayerValues:GetValue(LocalPlayer, "AClick") or General.AClickDefault
+    SideFrame.Stats.CMulti.Text = "C. Multi: " .. PlayerValues:GetValue(LocalPlayer, "CMulti") or General.CMultiDefault
+    SideFrame.Stats.Luck.Text = "Luck: " .. PlayerValues:GetValue(LocalPlayer, "Luck") or General.LuckDefault
 end
 
 PlayerValues:SetCallback("Cash", function(player, value)

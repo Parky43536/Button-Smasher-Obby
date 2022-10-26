@@ -11,21 +11,29 @@ General.DoorTime = 20
 
 General.PowerCost = 100
 General.PowerIncrease = 100
+General.PowerDefault = 1
+
 General.AClickCost = 200
 General.AClickIncrease = 100
+General.AClickDefault = 0
+
 General.CMultiCost = 200
 General.CMultiIncrease = 200
+General.CMultiDefault = 0
+
 General.LuckCost = 50
 General.LuckIncrease = 100
+General.LuckDefault = 0
+
 function General.getCost(typer, current)
     if typer == "Power" then
-        return General.PowerCost + General.PowerIncrease * (current - 1)
+        return General.PowerCost + General.PowerIncrease * ((current or General.PowerDefault) - 1)
     elseif typer == "AClick" then
-        return General.AClickCost + General.AClickIncrease * (current)
+        return General.AClickCost + General.AClickIncrease * (current or General.AClickDefault)
     elseif typer == "CMulti" then
-        return General.CMultiCost + General.CMultiIncrease * (current)
+        return General.CMultiCost + General.CMultiIncrease * (current or General.CMultiDefault)
     elseif typer == "Luck" then
-        return General.LuckCost + General.LuckIncrease * (current)
+        return General.LuckCost + General.LuckIncrease * (current or General.LuckDefault)
     end
 end
 
@@ -50,6 +58,7 @@ General.Signs = {
     [10] = "Lava will now appear",
     [15] = "Speeding Walls will now appear",
     [20] = "Laser Walls will now appear",
+    [25] = "Rockets will now appear",
 }
 
 --Colors---------------------------------------------

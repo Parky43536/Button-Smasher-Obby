@@ -8,7 +8,7 @@ local Assets = ReplicatedStorage.Assets
 
 local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
-local EventService = require(Utility.General)
+local EventService = require(Utility.EventService)
 local TweenService = require(Utility.TweenService)
 local ModelTweenService = require(Utility.ModelTweenService)
 local AudioService = require(Utility.AudioService)

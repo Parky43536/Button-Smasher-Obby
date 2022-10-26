@@ -22,7 +22,7 @@ function ClientService.InitializeClient(player, profile)
     stats.Parent = player
     stage.Parent = stats
 
-    --PlayerValues:SetValue(player, "CurrentLevel", profile.Data.Level)
+    PlayerValues:SetValue(player, "CurrentLevel", profile.Data.Level)
     PlayerValues:SetValue(player, "Level", profile.Data.Level, "playerOnly")
     PlayerValues:SetValue(player, "Cash", profile.Data.Cash, "playerOnly")
     PlayerValues:SetValue(player, "Power", profile.Data.Power, "playerOnly")

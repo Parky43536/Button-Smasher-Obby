@@ -8,6 +8,7 @@ local Assets = ReplicatedStorage.Assets
 
 local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
+local EventService = require(Utility.EventService)
 local TweenService = require(Utility.TweenService)
 local ModelTweenService = require(Utility.ModelTweenService)
 local AudioService = require(Utility.AudioService)
@@ -15,22 +16,21 @@ local AudioService = require(Utility.AudioService)
 local Event = {}
 
 local touchCooldown = {}
-local walls = {}
 
 function Event.Main(levelNum, level, data)
-    if not walls[levelNum] then walls[levelNum] = {left = false, right = false} end
-
     local rng = Random.new()
     local side = rng:NextInteger(1, 2)
     if side == 1 then
-        if not walls[levelNum].left then
-            walls[levelNum].left = true
+        if EventService.checkLevelCorner(levelNum, "leftUp") and EventService.checkLevelCorner(levelNum, "leftDown") then
+            EventService.toggleLevelCorner(levelNum, "leftUp", true)
+            EventService.toggleLevelCorner(levelNum, "leftDown", true)
         else
             return
         end
     else
-        if not walls[levelNum].right then
-            walls[levelNum].right = true
+        if EventService.checkLevelCorner(levelNum, "rightUp") and EventService.checkLevelCorner(levelNum, "rightDown") then
+            EventService.toggleLevelCorner(levelNum, "rightUp", true)
+            EventService.toggleLevelCorner(levelNum, "rightDown", true)
         else
             return
         end
@@ -41,7 +41,7 @@ function Event.Main(levelNum, level, data)
     if side == 1 then
         laserWall:SetPrimaryPartCFrame(level.Floor.CFrame)
     else
-        laserWall:SetPrimaryPartCFrame(level.Floor.CFrame * CFrame.Angles(0, math.rad(180), 0))
+        laserWall:SetPrimaryPartCFrame(level.Floor.CFrame * CFrame.Angles(0, math.rad(-180), 0))
     end
 
     laserWall.Parent = workspace.Misc
@@ -76,9 +76,11 @@ function Event.Main(levelNum, level, data)
     end
 
     if side == 1 then
-        walls[levelNum].left = false
+        EventService.toggleLevelCorner(levelNum, "leftUp", false)
+        EventService.toggleLevelCorner(levelNum, "leftDown", false)
     else
-        walls[levelNum].right = false
+        EventService.toggleLevelCorner(levelNum, "rightUp", false)
+        EventService.toggleLevelCorner(levelNum, "rightDown", false)
     end
 end
 

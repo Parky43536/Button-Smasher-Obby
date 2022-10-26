@@ -51,7 +51,7 @@ end
 ------------------------------------------------------------------
 
 local function levelsUi()
-    local currentLevel = PlayerValues:GetValue(LocalPlayer, "Level")
+    local currentLevel = PlayerValues:GetValue(LocalPlayer, "Level") or 1
 
     for levelNum = 1 , General.Levels do
         local level
@@ -67,7 +67,7 @@ local function levelsUi()
                 if RunService:IsStudio() or PlayerValues:GetValue(LocalPlayer, "Level") >= levelNum then
                     if character and character.Parent ~= nil then
                         character:PivotTo(workspace.Levels[levelNum].Spawn.CFrame)
-                        --DataConnection:FireServer("CurrentLevel", {level = levelNum})
+                        DataConnection:FireServer("CurrentLevel", {level = levelNum})
                     end
                 end
             end)
