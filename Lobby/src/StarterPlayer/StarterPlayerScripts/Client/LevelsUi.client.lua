@@ -13,6 +13,9 @@ local PlayerValues = require(RepServices:WaitForChild("PlayerValues"))
 local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
 
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local DataConnection = Remotes:WaitForChild("DataConnection")
+
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local PlayerUi = PlayerGui:WaitForChild("PlayerUi")
 local SideFrame = PlayerUi:WaitForChild("SideFrame")
@@ -62,6 +65,7 @@ local function levelsUi()
                 if RunService:IsStudio() or PlayerValues:GetValue(LocalPlayer, "Level") >= levelNum then
                     if character and character.Parent ~= nil then
                         character:PivotTo(workspace.Levels[levelNum].Spawn.CFrame)
+                        --DataConnection:FireServer("CurrentLevel", {level = levelNum})
                     end
                 end
             end)

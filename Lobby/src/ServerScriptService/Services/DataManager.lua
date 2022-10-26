@@ -93,6 +93,8 @@ end
 ----------------------------------------------------------------------------------
 
 function DataManager:SetSpawn(player, levelNum)
+	--PlayerValues:SetValue(player, "CurrentLevel", levelNum)
+
 	if DataManager:GetValue(player, "Level") + 1 == levelNum then
 		DataManager:SetValue(player, "Level", levelNum)
 		PlayerValues:SetValue(player, "Level", levelNum, "playerOnly")
@@ -156,6 +158,8 @@ DataConnection.OnServerEvent:Connect(function(player, action, args)
 		DataManager:BuyCMulti(player)
 	elseif action == "Luck" then
 		DataManager:BuyLuck(player)
+	--[[elseif action == "CurrentLevel" then
+		PlayerValues:SetValue(player, "CurrentLevel", args.level)]]
 	end
 end)
 
