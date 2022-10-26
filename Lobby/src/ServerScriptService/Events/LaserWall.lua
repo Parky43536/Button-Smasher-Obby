@@ -60,9 +60,9 @@ function Event.Main(levelNum, level, data)
         local player = game.Players:GetPlayerFromCharacter(hit.Parent)
         if player and player.Character then
             if not touchCooldown[player] then
-                touchCooldown[player] = tick() - General.TouchCooldown
+                touchCooldown[player] = tick() - EventService.TouchCooldown
             end
-            if tick() - touchCooldown[player] > General.TouchCooldown then
+            if tick() - touchCooldown[player] > EventService.TouchCooldown then
                 touchCooldown[player] = tick()
                 player.Character.Humanoid:TakeDamage(data.damage)
             end

@@ -8,6 +8,7 @@ local Assets = ReplicatedStorage.Assets
 
 local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
+local EventService = require(Utility.General)
 local TweenService = require(Utility.TweenService)
 local ModelTweenService = require(Utility.ModelTweenService)
 local AudioService = require(Utility.AudioService)
@@ -15,7 +16,7 @@ local AudioService = require(Utility.AudioService)
 local Event = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = General.randomLevelPoint(level)
+    local rlp = EventService.randomLevelPoint(level)
     if rlp then
         local bomb = Assets.Levels.Bomb:Clone()
         bomb.Position = rlp.Position + Vector3.new(0, 3.5, 0)
@@ -25,7 +26,7 @@ function Event.Main(levelNum, level, data)
 
         task.wait(2)
 
-        for _,player in pairs(General.getPlayersInRadius(bomb.Position, data.size / 2)) do
+        for _,player in pairs(EventService.getPlayersInRadius(bomb.Position, data.size / 2)) do
             if player.Character then
                 player.Character.Humanoid:TakeDamage(data.damage)
             end

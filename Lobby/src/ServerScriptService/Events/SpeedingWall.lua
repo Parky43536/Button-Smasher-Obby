@@ -8,6 +8,7 @@ local Assets = ReplicatedStorage.Assets
 
 local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
+local EventService = require(Utility.General)
 local TweenService = require(Utility.TweenService)
 local ModelTweenService = require(Utility.ModelTweenService)
 local AudioService = require(Utility.AudioService)
@@ -15,7 +16,7 @@ local AudioService = require(Utility.AudioService)
 local Event = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = General.randomLevelPoint(level, 6)
+    local rlp = EventService.randomLevelPoint(level, 6)
     if rlp then
         local wall = Assets.Levels.SpeedingWall:Clone()
         wall.BrickColor = BrickColor.random()

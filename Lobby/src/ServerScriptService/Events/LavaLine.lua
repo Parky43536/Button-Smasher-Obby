@@ -8,6 +8,7 @@ local Assets = ReplicatedStorage.Assets
 
 local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
+local EventService = require(Utility.General)
 local TweenService = require(Utility.TweenService)
 local ModelTweenService = require(Utility.ModelTweenService)
 local AudioService = require(Utility.AudioService)
@@ -17,7 +18,7 @@ local Event = {}
 local touchCooldown = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = General.randomLevelPoint(level)
+    local rlp = EventService.randomLevelPoint(level)
     if rlp then
         local lava = Assets.Levels.Lava:Clone()
         local rng = Random.new()
@@ -44,9 +45,9 @@ function Event.Main(levelNum, level, data)
             local player = game.Players:GetPlayerFromCharacter(hit.Parent)
             if player and player.Character then
                 if not touchCooldown[player] then
-                    touchCooldown[player] = tick() - General.TouchCooldown
+                    touchCooldown[player] = tick() - EventService.TouchCooldown
                 end
-                if tick() - touchCooldown[player] > General.TouchCooldown then
+                if tick() - touchCooldown[player] > EventService.TouchCooldown then
                     touchCooldown[player] = tick()
                     player.Character.Humanoid:TakeDamage(data.damage)
                 end
