@@ -17,7 +17,7 @@ local EventData = {
 
 		despawnTime = 6,
 		delayTime = 1,
-		damage = 15,
+		damage = 20,
 	},
 	["Spike"] = {
 		chance = 35,
@@ -26,7 +26,7 @@ local EventData = {
 
 		despawnTime = 6,
 		delayTime = 0.5,
-		damage = 25,
+		damage = 30,
 	},
 	["Bomb"] = {
 		chance = 50,
@@ -34,7 +34,7 @@ local EventData = {
 		negativeLuck = true,
 
 		size = 24,
-		damage = 60,
+		damage = 50,
 	},
 	["Coin"] = {
 		chance = 10,

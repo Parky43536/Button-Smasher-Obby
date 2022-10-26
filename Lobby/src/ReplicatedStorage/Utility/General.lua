@@ -12,10 +12,10 @@ General.TouchCooldown = 1
 
 General.PowerCost = 100
 General.PowerIncrease = 100
-General.AClickCost = 250
-General.AClickIncrease = 250
+General.AClickCost = 200
+General.AClickIncrease = 100
 General.CMultiCost = 200
-General.CMultiIncrease = 100
+General.CMultiIncrease = 200
 General.LuckCost = 50
 General.LuckIncrease = 100
 function General.getCost(typer, current)
@@ -75,6 +75,16 @@ General.Colors = {
 
 --Functions---------------------------------------------
 
+function General.playerCheck(player)
+    if player and
+    player.Character and
+    player.Character.PrimaryPart and
+    player.Character.PrimaryPart.Parent ~= nil and
+    player.Character.Humanoid.Health > 0 then
+        return true
+    end
+end
+
 function General.randomLevelPoint(level, offset)
     local rng = Random.new()
     local floor = level.Floor
@@ -99,10 +109,8 @@ function General.getPlayersInRadius(position, radius)
     local currentPlayers = Players:GetChildren()
     local playersInRadius = {}
 
-    radius += 1 --limbs
-
     for _,player in pairs(currentPlayers) do
-        if player and player.Character and player.Character.PrimaryPart and player.Character.PrimaryPart.Parent ~= nil then
+        if General.playerCheck(player) then
             if (player.Character.PrimaryPart.Position - position).Magnitude <= radius then
                 table.insert(playersInRadius, player)
             end

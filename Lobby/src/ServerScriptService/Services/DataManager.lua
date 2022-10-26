@@ -96,7 +96,6 @@ function DataManager:SetSpawn(player, levelNum)
 	if DataManager:GetValue(player, "Level") + 1 == levelNum then
 		DataManager:SetValue(player, "Level", levelNum)
 		PlayerValues:SetValue(player, "Level", levelNum, "playerOnly")
-		PlayerValues:SetValue(player, "CurrentLevel", levelNum)
 
 		local level = player:FindFirstChild("leaderstats"):FindFirstChild("Level")
 		level.Value += 1
@@ -157,8 +156,6 @@ DataConnection.OnServerEvent:Connect(function(player, action, args)
 		DataManager:BuyCMulti(player)
 	elseif action == "Luck" then
 		DataManager:BuyLuck(player)
-	elseif action == "CurrentLevel" then
-		PlayerValues:SetValue(player, "CurrentLevel", args.level)
 	end
 end)
 

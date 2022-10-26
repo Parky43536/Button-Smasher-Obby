@@ -22,7 +22,6 @@ function ClientService.InitializeClient(player, profile)
     stats.Parent = player
     stage.Parent = stats
 
-    PlayerValues:SetValue(player, "CurrentLevel", profile.Data.Level)
     PlayerValues:SetValue(player, "Level", profile.Data.Level, "playerOnly")
     PlayerValues:SetValue(player, "Cash", profile.Data.Cash, "playerOnly")
     PlayerValues:SetValue(player, "Power", profile.Data.Power, "playerOnly")
@@ -32,21 +31,6 @@ function ClientService.InitializeClient(player, profile)
 
     ClientConnection:FireClient(player)
     ShopConnection:FireClient(player)
-
-    task.spawn(function()
-        while player.Parent ~= nil do
-            print(PlayerValues:GetValue(player, "CurrentLevel"))
-            if PlayerValues:GetValue(player, "AClick") > 0 then
-                local levelNum = PlayerValues:GetValue(player, "CurrentLevel")
-                local level = workspace.Levels:FindFirstChild(levelNum)
-                local power = PlayerValues:GetValue(player, "Power") * PlayerValues:GetValue(player, "AClick")
-
-                GameService.PressButton(levelNum, level, player, power)
-            end
-
-            task.wait(1)
-        end
-    end)
 end
 
 return ClientService
