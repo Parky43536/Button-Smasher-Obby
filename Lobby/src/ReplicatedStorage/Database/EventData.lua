@@ -16,14 +16,14 @@ local EventData = {
 		damage = 40,
 	},
 	["AcidPuddle"] = {
-		chance = 60,
+		chance = 65,
 		levels = {min = 30, max = General.Levels},
 		obstacle = true,
 
-		despawnTime = 11,
+		despawnTime = 10,
 		growTime = 8,
 		delayTime = 1,
-		size = 24,
+		size = 20,
 		damage = 10,
 	},
 	["LaserWall"] = {
@@ -70,14 +70,12 @@ local EventData = {
 		size = 24,
 		damage = 50,
 	},
-
 	["SuperCoin"] = {
 		chance = 20,
 		levels = {min = 50, max = General.Levels},
 		value = 20,
 		despawnTime = 30,
 	},
-
 	["Coin"] = {
 		chance = 10,
 		levels = {min = 1, max = 49},

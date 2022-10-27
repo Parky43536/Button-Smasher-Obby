@@ -10,19 +10,19 @@ General.DoorTime = 20
 --Stats---------------------------------------------
 
 General.PowerCost = 100
-General.PowerIncrease = 100
+General.PowerIncrease = 300
 General.PowerDefault = 1
 
-General.AClickCost = 150
-General.AClickIncrease = 150
+General.AClickCost = 50
+General.AClickIncrease = 200
 General.AClickDefault = 0
 
-General.CMultiCost = 200
-General.CMultiIncrease = 150
+General.CMultiCost = 100
+General.CMultiIncrease = 350
 General.CMultiDefault = 0
 
 General.LuckCost = 50
-General.LuckIncrease = 100
+General.LuckIncrease = 250
 General.LuckDefault = 0
 
 function General.getCost(typer, current)
@@ -46,7 +46,7 @@ function General.PressesCalc(levelNum)
         return math.floor(num / 10 + 0.5) * 10
     end
 
-    return round10((levelNum * (General.StartingPresses + levelNum * 2)) + math.pow(2, levelNum/5))
+    return round10((levelNum * (General.StartingPresses + levelNum * 1.5)) + math.pow(2, levelNum/5))
 end
 
 General.Signs = {
