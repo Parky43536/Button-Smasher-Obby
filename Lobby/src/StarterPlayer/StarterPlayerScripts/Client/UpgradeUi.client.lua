@@ -41,7 +41,7 @@ UpgradeUi.UpgradeFrame.TopFrame.Close.Activated:Connect(function()
 end)
 
 local function onKeyPress(input, gameProcessedEvent)
-	if input.KeyCode == Enum.KeyCode.Q and gameProcessedEvent == false then
+	if input.KeyCode == Enum.KeyCode.E and gameProcessedEvent == false then
 		upgradeUiEnable()
 	end
 end

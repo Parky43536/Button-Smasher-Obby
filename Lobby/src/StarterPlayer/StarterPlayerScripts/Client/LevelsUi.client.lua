@@ -43,7 +43,7 @@ LevelsUi.LevelsFrame.TopFrame.Close.Activated:Connect(function()
 end)
 
 local function onKeyPress(input, gameProcessedEvent)
-	if input.KeyCode == Enum.KeyCode.E and gameProcessedEvent == false then
+	if input.KeyCode == Enum.KeyCode.X and gameProcessedEvent == false then
 		levelsUiEnable()
 	end
 end

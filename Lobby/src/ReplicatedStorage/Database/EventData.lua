@@ -5,8 +5,8 @@ local General = require(Utility.General)
 local EventData = {
 	["Rocket"] = {
 		chance = 60,
-		levels = {min = 25, max = General.Levels},
-		negativeLuck = true,
+		levels = {min = 40, max = General.Levels},
+		obstacle = true,
 
 		faceRate = 30,
 		raycastRate = 40,
@@ -15,10 +15,21 @@ local EventData = {
 		size = 12,
 		damage = 40,
 	},
+	["AcidPuddle"] = {
+		chance = 60,
+		levels = {min = 30, max = General.Levels},
+		obstacle = true,
+
+		despawnTime = 11,
+		growTime = 8,
+		delayTime = 1,
+		size = 24,
+		damage = 10,
+	},
 	["LaserWall"] = {
 		chance = 55,
 		levels = {min = 20, max = General.Levels},
-		negativeLuck = true,
+		obstacle = true,
 
 		despawnTime = 10,
 		riseDelayTime = 0.5,
@@ -28,14 +39,14 @@ local EventData = {
 	["SpeedingWall"] = {
 		chance = 50,
 		levels = {min = 15, max = General.Levels},
-		negativeLuck = true,
+		obstacle = true,
 
 		travelTime = 3.5,
 	},
 	["LavaLine"] = {
 		chance = 50,
 		levels = {min = 10, max = General.Levels},
-		negativeLuck = true,
+		obstacle = true,
 
 		despawnTime = 6,
 		delayTime = 1,
@@ -44,7 +55,7 @@ local EventData = {
 	["Spike"] = {
 		chance = 35,
 		levels = {min = 7, max = General.Levels},
-		negativeLuck = true,
+		obstacle = true,
 
 		despawnTime = 10,
 		delayTime = 0.5,
@@ -53,15 +64,23 @@ local EventData = {
 	["Bomb"] = {
 		chance = 50,
 		levels = {min = 3, max = General.Levels},
-		negativeLuck = true,
+		obstacle = true,
 
 		delayTime = 2,
 		size = 24,
 		damage = 50,
 	},
+
+	["SuperCoin"] = {
+		chance = 20,
+		levels = {min = 50, max = General.Levels},
+		value = 20,
+		despawnTime = 30,
+	},
+
 	["Coin"] = {
 		chance = 10,
-		levels = {min = 1, max = General.Levels},
+		levels = {min = 1, max = 49},
 		value = 10,
 		despawnTime = 30,
 	},

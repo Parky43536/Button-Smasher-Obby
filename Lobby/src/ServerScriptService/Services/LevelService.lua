@@ -78,7 +78,7 @@ function LevelService.ButtonEvent(levelNum, level, player)
         local playerLuck = PlayerValues:GetValue(player, "Luck")
         local chance = data.chance
 
-        if data.negativeLuck then
+        if data.obstacle then
             chance += playerLuck
         end
 

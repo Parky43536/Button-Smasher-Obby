@@ -58,7 +58,9 @@ General.Signs = {
     [10] = "Lava will now appear",
     [15] = "Speeding Walls will now appear",
     [20] = "Laser Walls will now appear",
-    [25] = "Rockets will now appear",
+    [30] = "Acid Puddles will now appear",
+    [40] = "Rockets will now appear",
+    [50] = "Coins have become Super Coins!",
 }
 
 --Colors---------------------------------------------
