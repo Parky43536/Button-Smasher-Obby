@@ -13,12 +13,12 @@ General.PowerCost = 100
 General.PowerIncrease = 100
 General.PowerDefault = 1
 
-General.AClickCost = 200
-General.AClickIncrease = 100
+General.AClickCost = 150
+General.AClickIncrease = 150
 General.AClickDefault = 0
 
 General.CMultiCost = 200
-General.CMultiIncrease = 200
+General.CMultiIncrease = 150
 General.CMultiDefault = 0
 
 General.LuckCost = 50
