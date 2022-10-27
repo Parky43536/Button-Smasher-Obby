@@ -10,19 +10,19 @@ General.DoorTime = 20
 --Stats---------------------------------------------
 
 General.PowerCost = 100
-General.PowerIncrease = 300
+General.PowerIncrease = 150
 General.PowerDefault = 1
 
 General.AClickCost = 50
-General.AClickIncrease = 200
+General.AClickIncrease = 100
 General.AClickDefault = 0
 
 General.CMultiCost = 100
-General.CMultiIncrease = 350
+General.CMultiIncrease = 200
 General.CMultiDefault = 0
 
 General.LuckCost = 50
-General.LuckIncrease = 250
+General.LuckIncrease = 150
 General.LuckDefault = 0
 
 function General.getCost(typer, current)
