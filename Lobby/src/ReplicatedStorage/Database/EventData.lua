@@ -4,8 +4,8 @@ local General = require(Utility.General)
 
 local EventData = {
 	["Rocket"] = {
-		chance = 60,
-		levels = {min = 40, max = General.Levels},
+		chance = 65,
+		levels = {min = 60, max = General.Levels},
 		obstacle = true,
 
 		faceRate = 30,
@@ -16,8 +16,8 @@ local EventData = {
 		damage = 40,
 	},
 	["AcidPuddle"] = {
-		chance = 65,
-		levels = {min = 30, max = General.Levels},
+		chance = 80,
+		levels = {min = 40, max = General.Levels},
 		obstacle = true,
 
 		despawnTime = 10,
@@ -27,7 +27,7 @@ local EventData = {
 		damage = 10,
 	},
 	["LaserWall"] = {
-		chance = 55,
+		chance = 60,
 		levels = {min = 20, max = General.Levels},
 		obstacle = true,
 
@@ -70,10 +70,17 @@ local EventData = {
 		size = 24,
 		damage = 50,
 	},
+	-----------------------------------------------------
 	["SuperCoin"] = {
 		chance = 20,
 		levels = {min = 50, max = General.Levels},
 		value = 20,
+		despawnTime = 30,
+	},
+	["Heal"] = {
+		chance = 120,
+		levels = {min = 30, max = General.Levels},
+		heal = 25,
 		despawnTime = 30,
 	},
 	["Coin"] = {

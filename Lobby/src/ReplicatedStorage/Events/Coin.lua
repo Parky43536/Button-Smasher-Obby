@@ -65,7 +65,7 @@ function Event.Client(rlp)
     local touchConnection
     touchConnection = coin.Touched:Connect(function(hit)
         local player = game.Players:GetPlayerFromCharacter(hit.Parent)
-        if player then
+        if General.playerCheck(player) then
             touchConnection:Disconnect()
             coin:Destroy()
 

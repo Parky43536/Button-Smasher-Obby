@@ -19,6 +19,17 @@ local GameService = {}
 local levels = {}
 local autoClicker = {}
 
+local function comma_value(amount)
+    local formatted = amount
+    while true do
+      formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+        if (k == 0) then
+            break
+        end
+    end
+    return formatted
+end
+
 function GameService.PressButton(levelNum, level, player, args)
     if not args then args = {} end
     if not args.power then args.power = PlayerValues:GetValue(player, "Power") end
@@ -34,7 +45,7 @@ function GameService.PressButton(levelNum, level, player, args)
             LevelService.ButtonEvent(levelNum, level, player)
 
             levels[levelNum].Presses = math.clamp(levels[levelNum].Presses - args.power, 0, 99e99)
-            level.Button.Top.Label.Text = levels[levelNum].Presses
+            level.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
 
             if levels[levelNum].Presses == 0 then
                 task.spawn(function()
@@ -45,7 +56,7 @@ function GameService.PressButton(levelNum, level, player, args)
 
                     levels[levelNum].DoorOpened = false
                     levels[levelNum].Presses = General.PressesCalc(levelNum)
-                    level.Button.Top.Label.Text = levels[levelNum].Presses
+                    level.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
                 end)
             end
         end
@@ -92,7 +103,7 @@ function GameService.SetUpGame()
 
         level.Level.Front.Label.Text = levelNum
         level.Level.Back.Label.Text = levelNum
-        level.Button.Top.Label.Text = levels[levelNum].Presses
+        level.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
 
         if General.Signs[levelNum] then
             level.Sign.Top.Label.Text = General.Signs[levelNum]

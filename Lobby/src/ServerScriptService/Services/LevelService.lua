@@ -31,6 +31,21 @@ function LevelService.OpenDoors(level)
         local DoorR = level.DoorR
         local DoorL = level.DoorL
 
+        task.spawn(function()
+            for i = 1 , General.DoorTime do
+                level.Timer.Front.Label.Text = General.DoorTime - i
+                level.Timer.Back.Label.Text = General.DoorTime - i
+
+                level.Timer.Front.Enabled = true
+                level.Timer.Back.Enabled = true
+
+                task.wait(1)
+            end
+
+            level.Timer.Front.Enabled = false
+            level.Timer.Back.Enabled = false
+        end)
+
         local tweenInfo = TweenInfo.new(2)
 
         ModelTweenService.TweenModulePosition(DoorR, tweenInfo, DoorR.PrimaryPart.Position + DoorR.PrimaryPart.CFrame.RightVector * -9)
@@ -82,7 +97,7 @@ function LevelService.ButtonEvent(levelNum, level, player)
             chance += playerLuck
         end
 
-        if rng:NextNumber(0, chance) <= 1 + (playerLuck / 10) then
+        if rng:NextNumber(0, chance) <= 1 + (playerLuck / 20) then
             task.spawn(function()
                 if not requiredEvents[key] then
                     requiredEvents[key] = require(Events:FindFirstChild(key))

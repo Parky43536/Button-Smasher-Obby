@@ -17,9 +17,6 @@ local DataBase = ReplicatedStorage.Database
 local EventData = require(DataBase:WaitForChild("EventData"))
 local data = EventData[script.Name]
 
-local ServerScriptService
-local SerServices
-local DataManager
 local LocalPlayer
 
 local Signal
@@ -27,10 +24,6 @@ if IsServer then
     Signal = Instance.new("RemoteEvent")
     Signal.Name = "Signal"
     Signal.Parent = script
-
-    ServerScriptService = game:GetService("ServerScriptService")
-    SerServices = ServerScriptService.Services
-    DataManager = require(SerServices.DataManager)
 else
     Signal = script:WaitForChild("Signal")
     LocalPlayer = Players.LocalPlayer
@@ -50,33 +43,35 @@ function Event.Main(levelNum, level)
 end
 
 function Event.Server(player)
-    DataManager:GiveCash(player, data.value)
+    if General.playerCheck(player) then
+        player.Character.Humanoid.Health += data.heal
+    end
 end
 
 function Event.Client(rlp)
-    local coin = Assets.Levels.SuperCoin:Clone()
-    coin.Position = rlp + Vector3.new(0, 3.5, 0)
-    coin.Parent = workspace.Misc
+    local heal = Assets.Levels.Heal:Clone()
+    heal.Position = rlp + Vector3.new(0, 3.5, 0)
+    heal.Parent = workspace.Misc
 
-    local goal = {CFrame = coin.CFrame * CFrame.Angles(0, math.rad(180), 0)}
+    local goal = {CFrame = heal.CFrame * CFrame.Angles(0, math.rad(180), 0)}
     local properties = {Time = 1, Repeat = math.huge}
-    TweenService.tween(coin, goal, properties)
+    TweenService.tween(heal, goal, properties)
 
     local touchConnection
-    touchConnection = coin.Touched:Connect(function(hit)
+    touchConnection = heal.Touched:Connect(function(hit)
         local player = game.Players:GetPlayerFromCharacter(hit.Parent)
         if General.playerCheck(player) then
             touchConnection:Disconnect()
-            coin:Destroy()
+            heal:Destroy()
 
             Signal:FireServer(LocalPlayer)
         end
     end)
 
     task.wait(data.despawnTime)
-    if coin.Parent ~= nil then
+    if heal.Parent ~= nil then
         touchConnection:Disconnect()
-        coin:Destroy()
+        heal:Destroy()
     end
 end
 
