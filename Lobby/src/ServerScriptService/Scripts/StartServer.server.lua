@@ -1,4 +1,9 @@
 local ServerScriptService = game:GetService("ServerScriptService")
-local SerServices = ServerScriptService.Services
-local GameService = require(SerServices.GameService)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+for _, event in ReplicatedStorage.Events:GetChildren() do
+    require(event)
+end
+
+local GameService = require(ServerScriptService.Services.GameService)
 GameService.SetUpGame()

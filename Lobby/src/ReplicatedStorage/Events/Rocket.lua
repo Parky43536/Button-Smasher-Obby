@@ -1,9 +1,5 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService("ServerScriptService")
 local CollectionService = game:GetService("CollectionService")
-
-local SerServices = ServerScriptService.Services
-local DataManager = require(SerServices.DataManager)
 
 local Assets = ReplicatedStorage.Assets
 

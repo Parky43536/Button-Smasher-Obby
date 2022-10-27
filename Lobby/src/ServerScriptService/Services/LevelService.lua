@@ -1,9 +1,7 @@
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService("ServerScriptService")
 
-local Events = ServerScriptService.Events
-
+local Events = ReplicatedStorage.Events
 local DataBase = ReplicatedStorage.Database
 local EventData = require(DataBase:WaitForChild("EventData"))
 

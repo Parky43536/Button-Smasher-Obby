@@ -1,8 +1,4 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService("ServerScriptService")
-
-local SerServices = ServerScriptService.Services
-local DataManager = require(SerServices.DataManager)
 
 local Assets = ReplicatedStorage.Assets
 
@@ -20,18 +16,28 @@ local touchCooldown = {}
 function Event.Main(levelNum, level, data)
     local rlp = EventService.randomLevelPoint(level)
     if rlp then
-        local spike = Assets.Levels.Spike:Clone()
-        spike.Position = rlp.Position - Vector3.new(0, spike.Size.Y / 2, 0)
-        spike.Parent = workspace.Misc
+        local lava = Assets.Levels.Lava:Clone()
+        local rng = Random.new()
+        if rng:NextInteger(1, 2) == 1 then
+            lava.Position = Vector3.new(rlp.Position.X, rlp.Position.Y, level.Floor.Position.Z)
+            lava.Size = Vector3.new(lava.Size.X, lava.Size.Y, level.Floor.Size.Z - 0.01)
+        else
+            lava.Position = Vector3.new(level.Floor.Position.X, rlp.Position.Y, rlp.Position.Z)
+            lava.Size = Vector3.new(level.Floor.Size.X - 0.01, lava.Size.Y, lava.Size.Z)
+        end
 
-        local goal = {Position = spike.Position + Vector3.new(0, spike.Size.Y, 0)}
+        lava.Parent = workspace.Misc
+
+        local goal = {Transparency = 0.1}
         local properties = {Time = data.delayTime}
-        TweenService.tween(spike, goal, properties)
+        TweenService.tween(lava, goal, properties)
 
         task.wait(data.delayTime)
 
+        lava.LavaParticle.Enabled = true
+
         local touchConnection
-        touchConnection = spike.Touched:Connect(function(hit)
+        touchConnection = lava.Touched:Connect(function(hit)
             local player = game.Players:GetPlayerFromCharacter(hit.Parent)
             if player and player.Character then
                 if not touchCooldown[player] then
@@ -45,9 +51,9 @@ function Event.Main(levelNum, level, data)
         end)
 
         task.wait(data.despawnTime)
-        if spike.Parent ~= nil then
+        if lava.Parent ~= nil then
             touchConnection:Disconnect()
-            spike:Destroy()
+            lava:Destroy()
         end
     end
 end
