@@ -24,7 +24,7 @@ function Event.Main(levelNum, level, data)
 
         AudioService:Create(11565378, bomb, {Volume = 0.8, Duration = 2})
 
-        task.wait(2)
+        task.wait(data.delayTime)
 
         for _,player in pairs(EventService.getPlayersInRadius(bomb.Position, data.size / 2)) do
             if player.Character then

@@ -55,6 +55,7 @@ local EventData = {
 		levels = {min = 3, max = General.Levels},
 		negativeLuck = true,
 
+		delayTime = 2,
 		size = 24,
 		damage = 50,
 	},
