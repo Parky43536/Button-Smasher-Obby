@@ -11,7 +11,7 @@ local EventData = {
 		faceRate = 30,
 		raycastRate = 40,
 		delayTime = 3,
-		travelTime = 5,
+		travelTime = 4,
 		size = 12,
 		damage = 40,
 	},

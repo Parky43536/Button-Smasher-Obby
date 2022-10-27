@@ -50,11 +50,11 @@ function EventService.randomLevelPoint(level, offset)
     return Result
 end
 
-function EventService.getPlayersInRadius(position, radius)
+function EventService.getPlayersInRadius(position, radius, players)
     local currentPlayers = Players:GetChildren()
     local playersInRadius = {}
 
-    for _, player in pairs(currentPlayers) do
+    for _, player in pairs(players or currentPlayers) do
         if General.playerCheck(player) then
             if (player.Character.PrimaryPart.Position - position).Magnitude <= radius then
                 table.insert(playersInRadius, player)
@@ -65,12 +65,36 @@ function EventService.getPlayersInRadius(position, radius)
     return playersInRadius
 end
 
-function EventService.getClosestPlayer(position, levelNum)
+function EventService.getPlayersInSize(cframe, size, players)
+    local currentPlayers = Players:GetChildren()
+    local playersInSize = {}
+
+    for _,player in pairs(players or currentPlayers) do
+        if General.playerCheck(player) then
+            local relativePoint = cframe:Inverse() * player.Character.PrimaryPart.Position
+            local isInsideHitbox = true
+            for _,axis in ipairs{"X","Y","Z"} do
+                if math.abs(relativePoint[axis]) > size[axis]/2 then
+                    isInsideHitbox = false
+                    break
+                end
+            end
+
+            if isInsideHitbox then
+                table.insert(playersInSize, player)
+            end
+        end
+    end
+
+    return playersInSize
+end
+
+function EventService.getClosestPlayer(position, players)
     local currentPlayers = Players:GetChildren()
     local closestPlayer
 
-    for _, player in pairs(currentPlayers) do
-        if General.playerCheck(player) and PlayerValues:GetValue(player, "CurrentLevel") == levelNum then
+    for _, player in pairs(players or currentPlayers) do
+        if General.playerCheck(player) then
             if not closestPlayer then
                 closestPlayer = player
             elseif not General.playerCheck(closestPlayer) then

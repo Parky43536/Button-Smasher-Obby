@@ -90,7 +90,8 @@ function Event.Main(levelNum, level, data)
         rocket:SetPrimaryPartCFrame(level.Floor.CFrame * CFrame.Angles(0, math.rad(-270), 0))
     end
 
-    local targetPlayer = EventService.getClosestPlayer(rocket.Stand.PrimaryPart.Position, levelNum)
+    local playersInLevel = EventService.getPlayersInSize(level.Floor.CFrame, level.Floor.Size + Vector3.new(4, 100, 4))
+    local targetPlayer = EventService.getClosestPlayer(rocket.Stand.PrimaryPart.Position, playersInLevel)
     local touchConnection = false
 
     if targetPlayer then
