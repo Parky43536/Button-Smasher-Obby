@@ -14,69 +14,55 @@ local Event = {}
 local touchCooldown = {}
 
 function Event.Main(levelNum, level, data)
-    local rng = Random.new()
-    local side = rng:NextInteger(1, 2)
-    if side == 1 then
-        if EventService.checkLevelCorner(levelNum, "leftUp") and EventService.checkLevelCorner(levelNum, "leftDown") then
-            EventService.toggleLevelCorner(levelNum, "leftUp", true)
-            EventService.toggleLevelCorner(levelNum, "leftDown", true)
-        else
-            return
-        end
-    else
-        if EventService.checkLevelCorner(levelNum, "rightUp") and EventService.checkLevelCorner(levelNum, "rightDown") then
-            EventService.toggleLevelCorner(levelNum, "rightUp", true)
-            EventService.toggleLevelCorner(levelNum, "rightDown", true)
-        else
-            return
-        end
-    end
+    local rOS1 = EventService.randomObstacleSpawner(levelNum, level)
+    local rOS2 = EventService.randomObstacleSpawner(levelNum, level)
+    if rOS1 and rOS2 then
+        local laserWall = Assets.Levels.LaserWall:Clone()
+        laserWall.Pillar1:SetPrimaryPartCFrame(rOS1.CFrame)
+        laserWall.Pillar2:SetPrimaryPartCFrame(rOS2.CFrame)
 
-    local laserWall = Assets.Levels.LaserWall:Clone()
+        laserWall.Parent = workspace.Misc
 
-    if side == 1 then
-        laserWall:SetPrimaryPartCFrame(level.Floor.CFrame)
-    else
-        laserWall:SetPrimaryPartCFrame(level.Floor.CFrame * CFrame.Angles(0, math.rad(-180), 0))
-    end
+        local tweenInfo = TweenInfo.new(data.riseDelayTime)
+        ModelTweenService.TweenModulePosition(laserWall, tweenInfo, laserWall.PrimaryPart.Position + Vector3.new(0, 17, 0))
 
-    laserWall.Parent = workspace.Misc
+        task.wait(data.riseDelayTime)
 
-    local tweenInfo = TweenInfo.new(data.riseDelayTime)
-    ModelTweenService.TweenModulePosition(laserWall, tweenInfo, laserWall.PrimaryPart.Position + Vector3.new(0, 17, 0))
-    task.wait(data.riseDelayTime)
-
-    local tweenInfo2 = TweenInfo.new(data.laserDelayTime)
-    ModelTweenService.TweenModuleTransparency(laserWall.Lasers, tweenInfo2, 0.1)
-    task.wait(data.laserDelayTime)
-
-    laserWall.Damage.CanCollide = true
-    local touchConnection
-    touchConnection = laserWall.Damage.Touched:Connect(function(hit)
-        local player = game.Players:GetPlayerFromCharacter(hit.Parent)
-        if player and player.Character then
-            if not touchCooldown[player] then
-                touchCooldown[player] = tick() - EventService.TouchCooldown
-            end
-            if tick() - touchCooldown[player] > EventService.TouchCooldown then
-                touchCooldown[player] = tick()
-                player.Character.Humanoid:TakeDamage(data.damage)
+        for _, beam in pairs(laserWall:GetDescendants()) do
+            if beam.Name == "Beam" then
+                beam.Enabled = true
             end
         end
-    end)
 
-    task.wait(data.despawnTime)
-    if laserWall.Parent ~= nil then
+        local center1 = laserWall.Pillar1.Center
+        local center2 = laserWall.Pillar2.Center
+        local wall = Instance.new("Part")
+        wall.Transparency = 1
+        wall.Anchored = true
+        wall.Size = Vector3.new(1, center1.Size.Y, (center1.Position - center2.Position).Magnitude)
+        wall.CFrame = CFrame.new(center1.Position, center2.Position) + CFrame.new(center1.Position, center2.Position).LookVector * wall.Size.Z / 2
+        wall.Parent = laserWall
+
+        local touchConnection
+        touchConnection = wall.Touched:Connect(function(hit)
+            local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+            if player and player.Character then
+                if not touchCooldown[player] then
+                    touchCooldown[player] = tick() - EventService.TouchCooldown
+                end
+                if tick() - touchCooldown[player] > EventService.TouchCooldown then
+                    touchCooldown[player] = tick()
+                    player.Character.Humanoid:TakeDamage(data.damage)
+                end
+            end
+        end)
+
+        task.wait(data.despawnTime)
         touchConnection:Disconnect()
         laserWall:Destroy()
-    end
 
-    if side == 1 then
-        EventService.toggleLevelCorner(levelNum, "leftUp", false)
-        EventService.toggleLevelCorner(levelNum, "leftDown", false)
-    else
-        EventService.toggleLevelCorner(levelNum, "rightUp", false)
-        EventService.toggleLevelCorner(levelNum, "rightDown", false)
+        EventService.toggleObstacleSpawner(levelNum, rOS1, false)
+        EventService.toggleObstacleSpawner(levelNum, rOS2, false)
     end
 end
 

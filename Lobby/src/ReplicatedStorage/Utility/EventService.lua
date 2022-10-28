@@ -15,19 +15,46 @@ EventService.TouchCooldown = 1
 
 --Functions---------------------------------------------
 
-local corners = {}
+local obstacleSpawners = {}
 
-function EventService.toggleLevelCorner(levelNum, corner, toggle)
-    if not corners[levelNum] then corners[levelNum] = {} end
-    corners[levelNum][corner] = toggle
+function EventService.toggleObstacleSpawner(levelNum, obstacleSpawner, toggle)
+    if not obstacleSpawners[levelNum] then obstacleSpawners[levelNum] = {} end
+    obstacleSpawners[levelNum][obstacleSpawner] = toggle
 end
 
-function EventService.checkLevelCorner(levelNum, corner)
-    if corners[levelNum] and corners[levelNum][corner] then
+function EventService.checkObstacleSpawner(levelNum, obstacleSpawner)
+    if obstacleSpawners[levelNum] and obstacleSpawners[levelNum][obstacleSpawner] then
         return false
     end
 
     return true
+end
+
+function EventService.randomObstacleSpawner(levelNum, level)
+    local rng = Random.new()
+    local obstacleSpawnerList = {}
+
+    for _, part in pairs(level:GetDescendants()) do
+        if part.Name == "ObstacleSpawner" then
+            table.insert(obstacleSpawnerList, part)
+        end
+    end
+
+    local pickedSpawner
+    repeat
+        local num = rng:NextInteger(1, #obstacleSpawnerList)
+        if EventService.checkObstacleSpawner(levelNum, obstacleSpawnerList[num]) then
+            pickedSpawner = obstacleSpawnerList[num]
+        else
+            table.remove(obstacleSpawnerList, num)
+        end
+    until pickedSpawner or #obstacleSpawnerList == 0
+
+    if pickedSpawner then
+        EventService.toggleObstacleSpawner(levelNum, pickedSpawner, true)
+    end
+
+    return pickedSpawner
 end
 
 function EventService.randomLevelPoint(level, offset)
