@@ -24,7 +24,8 @@ function Event.Main(levelNum, level, data)
         laserWall.Parent = workspace.Misc
 
         local tweenInfo = TweenInfo.new(data.riseDelayTime)
-        ModelTweenService.TweenModulePosition(laserWall, tweenInfo, laserWall.PrimaryPart.Position + Vector3.new(0, 17, 0))
+        ModelTweenService.TweenModuleCFrame(laserWall.Pillar1, tweenInfo, laserWall.Pillar1.PrimaryPart.CFrame + laserWall.Pillar1.PrimaryPart.CFrame.UpVector * 17)
+        ModelTweenService.TweenModuleCFrame(laserWall.Pillar2, tweenInfo, laserWall.Pillar2.PrimaryPart.CFrame + laserWall.Pillar2.PrimaryPart.CFrame.UpVector * 17)
 
         task.wait(data.riseDelayTime)
 

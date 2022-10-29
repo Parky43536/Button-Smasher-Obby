@@ -13,7 +13,6 @@ function module.TweenModulePosition(Model,Tweeninfo,PPosition)
 	if not Model:IsA("Model") then error(Model.Name.." isnt a model") end
 	if not Model.PrimaryPart then Model.PrimaryPart = Model:FindFirstChildWhichIsA("BasePart") end
 
-
 	task.spawn(function()
 		local Primary = Model.PrimaryPart
 		local AnchorState = Primary.Anchored
@@ -26,7 +25,7 @@ function module.TweenModulePosition(Model,Tweeninfo,PPosition)
 				T:Play()
 				
 				local anchord = v.Anchored
-				v.Anchored = true 
+				v.Anchored = true
 				task.spawn(function()
 					TW.Completed:Wait()
 					v.Anchored = anchord
@@ -50,6 +49,24 @@ function module.TweenModulePosition(Model,Tweeninfo,PPosition)
 		
 		Primary.Anchored = AnchorState
 	end)
+	return
+end
+
+function module.TweenModuleCFrame(Model,Tweeninfo,CFrame)
+	local CFrameValue = Instance.new("CFrameValue")
+	CFrameValue.Value = Model:GetPrimaryPartCFrame()
+
+	CFrameValue:GetPropertyChangedSignal("Value"):connect(function()
+		Model:SetPrimaryPartCFrame(CFrameValue.Value)
+	end)
+
+	local tween = TS:Create(CFrameValue, Tweeninfo, {Value = CFrame})
+	tween:Play()
+
+	tween.Completed:connect(function()
+		CFrameValue:Destroy()
+	end)
+
 	return
 end
 

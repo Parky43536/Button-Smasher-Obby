@@ -4,14 +4,13 @@ local General = require(Utility.General)
 
 local EventData = {
 	["Rocket"] = {
-		chance = 65,
-		levels = {min = 60, max = General.Levels},
+		chance = 60,
+		levels = {min = 65, max = General.Levels},
 		obstacle = true,
 
 		faceRate = 30,
-		raycastRate = 40,
 		delayTime = 3,
-		travelTime = 4,
+		speed = 20,
 		size = 12,
 		damage = 40,
 	},
