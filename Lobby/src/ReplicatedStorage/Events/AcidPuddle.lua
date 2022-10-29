@@ -14,7 +14,7 @@ local Event = {}
 local touchCooldown = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = EventService.randomLevelPoint(level)
+    local rlp = EventService.randomLevelPoint(level, data.size/2)
     if rlp then
         local touchConnection
 

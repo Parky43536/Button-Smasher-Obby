@@ -73,7 +73,7 @@ function EventService.getBoundingBox(model, orientation)
 	for _, obj in pairs(model) do
 		if obj:IsA("BasePart") then
 			local cf = obj.CFrame
-			cf = orientation:toObjectSpace(cf)
+			cf = orientation:ToObjectSpace(cf)
 			local size = obj.Size
 			local sx, sy, sz = size.X, size.Y, size.Z
 
@@ -121,12 +121,14 @@ function EventService.getBoundingBox(model, orientation)
 	return wCf, size
 end
 
-function EventService.randomLevelPoint(level)
+function EventService.randomLevelPoint(level, offset)
+    if not offset then offset = 2 end
+
     local rng = Random.new()
     local cframe, size = EventService.getBoundingBox(level.Floor)
 
-    local x = cframe.Position.X + rng:NextInteger(-size.X/2, size.X/2)
-    local z = cframe.Position.Z + rng:NextInteger(-size.Z/2, size.Z/2)
+    local x = cframe.Position.X + rng:NextInteger((-size.X/2) + offset, (size.X/2) - offset)
+    local z = cframe.Position.Z + rng:NextInteger((-size.Z/2) + offset, (size.Z/2) - offset)
     local pos = Vector3.new(x, 10, z)
 
     local RayOrigin = pos

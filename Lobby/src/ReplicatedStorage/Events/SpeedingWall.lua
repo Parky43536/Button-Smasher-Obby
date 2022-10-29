@@ -12,7 +12,7 @@ local AudioService = require(Utility.AudioService)
 local Event = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = EventService.randomLevelPoint(level)
+    local rlp = EventService.randomLevelPoint(level, 6)
     if rlp then
         local cframe, size = EventService.getBoundingBox(level.Floor)
         local wall = Assets.Obstacles.SpeedingWall:Clone()
