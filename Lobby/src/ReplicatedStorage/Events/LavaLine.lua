@@ -26,6 +26,10 @@ function Event.Main(levelNum, level, data)
             lava.Size = Vector3.new(rlp.Instance.Size.X - 0.01, lava.Size.Y, lava.Size.Z)
         end
 
+        --[[local localized = lava.CFrame:PointToObjectSpace(rlp.Instance.Position)
+        local overlap = lava.Size + rlp.Instance.Size - localized
+        lava.Size = overlap]]
+
         lava.Parent = workspace.Misc
 
         local goal = {Transparency = 0.1}
