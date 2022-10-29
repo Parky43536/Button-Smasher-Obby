@@ -12,10 +12,10 @@ local AudioService = require(Utility.AudioService)
 local Event = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = EventService.randomLevelPoint(level)
-    if rlp then
+    local rp = EventService.randomPoint(level)
+    if rp then
         local bomb = Assets.Obstacles.Bomb:Clone()
-        bomb.Position = rlp.Position + Vector3.new(0, 3.5, 0)
+        bomb.Position = rp.Position + Vector3.new(0, 3.5, 0)
         bomb.Parent = workspace.Misc
 
         AudioService:Create(11565378, bomb, {Volume = 0.8, Duration = 2})

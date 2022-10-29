@@ -12,13 +12,13 @@ local AudioService = require(Utility.AudioService)
 local Event = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = EventService.randomLevelPoint(level, 6)
-    if rlp then
+    local rp = EventService.randomPoint(level, {offset = 6})
+    if rp then
         local cframe, size = EventService.getBoundingBox(level.Floor)
         local wall = Assets.Obstacles.SpeedingWall:Clone()
         wall.BrickColor = BrickColor.random()
         wall.CFrame = cframe
-        wall.Position = Vector3.new(wall.Position.X, rlp.Position.Y + wall.Size.Y/2, rlp.Position.Z)
+        wall.Position = Vector3.new(wall.Position.X, rp.Position.Y + wall.Size.Y/2, rp.Position.Z)
 
         local rng = Random.new()
         if rng:NextInteger(1, 2) == 1 then

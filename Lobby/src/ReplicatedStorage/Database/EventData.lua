@@ -24,7 +24,7 @@ local EventData = {
 		growTime = 8,
 		delayTime = 1,
 		size = 20,
-		damage = 10,
+		damage = 15,
 	},
 	["LaserWall"] = {
 		chance = 60,

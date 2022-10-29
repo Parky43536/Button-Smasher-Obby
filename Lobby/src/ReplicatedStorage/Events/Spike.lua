@@ -14,36 +14,40 @@ local Event = {}
 local touchCooldown = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = EventService.randomLevelPoint(level)
-    if rlp then
-        local spike = Assets.Obstacles.Spike:Clone()
-        spike.Position = rlp.Position - Vector3.new(0, spike.Size.Y / 2, 0)
-        spike.Parent = workspace.Misc
+    local rpController = EventService.randomPoint(level)
+    if rpController then
+        local rp = EventService.randomPoint(level, {model = {rpController.Instance}, filter = level.Floor:GetChildren()})
+        if rp and rp.Instance == rpController.Instance then
+            local spike = Assets.Obstacles.Spike:Clone()
+            spike.CFrame = CFrame.new(rp.Position, rp.Position + rp.Normal) * CFrame.Angles(math.rad(90), 0, math.rad(180))
+            spike.CFrame = spike.CFrame + spike.CFrame.UpVector * -spike.Size.Y / 2
+            spike.Parent = workspace.Misc
 
-        local goal = {Position = spike.Position + Vector3.new(0, spike.Size.Y, 0)}
-        local properties = {Time = data.delayTime}
-        TweenService.tween(spike, goal, properties)
+            local goal = {CFrame = spike.CFrame + spike.CFrame.UpVector * spike.Size.Y}
+            local properties = {Time = data.delayTime}
+            TweenService.tween(spike, goal, properties)
 
-        task.wait(data.delayTime)
+            task.wait(data.delayTime)
 
-        local touchConnection
-        touchConnection = spike.Touched:Connect(function(hit)
-            local player = game.Players:GetPlayerFromCharacter(hit.Parent)
-            if player and player.Character then
-                if not touchCooldown[player] then
-                    touchCooldown[player] = tick() - EventService.TouchCooldown
+            local touchConnection
+            touchConnection = spike.Touched:Connect(function(hit)
+                local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+                if player and player.Character then
+                    if not touchCooldown[player] then
+                        touchCooldown[player] = tick() - EventService.TouchCooldown
+                    end
+                    if tick() - touchCooldown[player] > EventService.TouchCooldown then
+                        touchCooldown[player] = tick()
+                        player.Character.Humanoid:TakeDamage(data.damage)
+                    end
                 end
-                if tick() - touchCooldown[player] > EventService.TouchCooldown then
-                    touchCooldown[player] = tick()
-                    player.Character.Humanoid:TakeDamage(data.damage)
-                end
+            end)
+
+            task.wait(data.despawnTime)
+            if spike.Parent ~= nil then
+                touchConnection:Disconnect()
+                spike:Destroy()
             end
-        end)
-
-        task.wait(data.despawnTime)
-        if spike.Parent ~= nil then
-            touchConnection:Disconnect()
-            spike:Destroy()
         end
     end
 end

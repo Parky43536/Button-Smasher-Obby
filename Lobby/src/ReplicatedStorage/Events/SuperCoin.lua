@@ -39,13 +39,13 @@ end
 local Event = {}
 
 function Event.Main(levelNum, level)
-    local rlp = EventService.randomLevelPoint(level)
-    if rlp then
+    local rp = EventService.randomPoint(level)
+    if rp then
         local cframe, size = EventService.getBoundingBox(level.Floor)
         local playersInLevel = EventService.getPlayersInSize(cframe, size + Vector3.new(4, 100, 4))
 
         for _, player in playersInLevel do
-            Signal:FireClient(player, rlp.Position)
+            Signal:FireClient(player, rp.Position)
         end
     end
 end
@@ -54,9 +54,9 @@ function Event.Server(player)
     DataManager:GiveCash(player, data.value)
 end
 
-function Event.Client(rlp)
+function Event.Client(rp)
     local coin = Assets.Obstacles.SuperCoin:Clone()
-    coin.Position = rlp + Vector3.new(0, 3.5, 0)
+    coin.Position = rp + Vector3.new(0, 3.5, 0)
     coin.Parent = workspace.Misc
 
     local goal = {CFrame = coin.CFrame * CFrame.Angles(0, math.rad(180), 0)}

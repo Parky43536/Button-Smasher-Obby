@@ -32,13 +32,13 @@ end
 local Event = {}
 
 function Event.Main(levelNum, level)
-    local rlp = EventService.randomLevelPoint(level)
-    if rlp then
+    local rp = EventService.randomPoint(level)
+    if rp then
         local cframe, size = EventService.getBoundingBox(level.Floor)
         local playersInLevel = EventService.getPlayersInSize(cframe, size + Vector3.new(4, 100, 4))
 
         for _, player in playersInLevel do
-            Signal:FireClient(player, rlp.Position)
+            Signal:FireClient(player, rp.Position)
         end
     end
 end
@@ -49,9 +49,9 @@ function Event.Server(player)
     end
 end
 
-function Event.Client(rlp)
+function Event.Client(rp)
     local heal = Assets.Obstacles.Heal:Clone()
-    heal.Position = rlp + Vector3.new(0, 3.5, 0)
+    heal.Position = rp + Vector3.new(0, 3.5, 0)
     heal.Parent = workspace.Misc
 
     local goal = {CFrame = heal.CFrame * CFrame.Angles(0, math.rad(180), 0)}

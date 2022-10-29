@@ -41,11 +41,11 @@ function GameService.PressButton(levelNum, level, player, args)
         levels[levelNum].LastPress[player] = tick()
 
         if General.playerCheck(player) and levels[levelNum].Presses > 0 then
-            LevelService.PressButton(level.Floor.Button.Button)
+            LevelService.PressButton(level.Button.Button)
             LevelService.ButtonEvent(levelNum, level, player)
 
             levels[levelNum].Presses = math.clamp(levels[levelNum].Presses - args.power, 0, 99e99)
-            level.Floor.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
+            level.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
 
             if levels[levelNum].Presses == 0 then
                 task.spawn(function()
@@ -56,7 +56,7 @@ function GameService.PressButton(levelNum, level, player, args)
 
                     levels[levelNum].DoorOpened = false
                     levels[levelNum].Presses = General.PressesCalc(levelNum)
-                    level.Floor.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
+                    level.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
                 end)
             end
         end
@@ -64,7 +64,7 @@ function GameService.PressButton(levelNum, level, player, args)
 end
 
 function GameService.SetUpButton(levelNum, level)
-    level.Floor.Button.Button.ClickDetector.MouseClick:connect(function(player)
+    level.Button.Button.ClickDetector.MouseClick:connect(function(player)
         GameService.PressButton(levelNum, level, player)
 
         if autoClicker[player] ~= levelNum then autoClicker[player] = nil end
@@ -106,7 +106,7 @@ function GameService.SetUpGame()
 
         level.Door.Level.Front.Label.Text = levelNum
         level.Door.Level.Back.Label.Text = levelNum
-        level.Floor.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
+        level.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
 
         if General.Signs[levelNum] then
             level.Door.Sign.Top.Label.Text = General.Signs[levelNum]

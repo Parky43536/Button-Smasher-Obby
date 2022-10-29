@@ -110,33 +110,37 @@ function EventService.getBoundingBox(model, orientation)
 	local wCf = orientation - orientation.p + orientation:pointToWorldSpace(omiddle)
 	local size = (omax-omin)
 
-    --[[local part = Instance.new("Part")
-    part.CanCollide = false
-    part.Transparency = 0.5
-    part.Size = size
-    part.CFrame = wCf
-    part.Anchored = true
-    part.Parent = workspace]]
-
 	return wCf, size
 end
 
-function EventService.randomLevelPoint(level, offset)
-    if not offset then offset = 2 end
+function EventService.randomPoint(level, args)
+    if not args then args = {} end
+    if not args.offset then args.offset = 2 end
 
     local rng = Random.new()
-    local cframe, size = EventService.getBoundingBox(level.Floor)
+    local cframe, size = EventService.getBoundingBox(args.model or level.Floor)
 
-    local x = cframe.Position.X + rng:NextInteger((-size.X/2) + offset, (size.X/2) - offset)
-    local z = cframe.Position.Z + rng:NextInteger((-size.Z/2) + offset, (size.Z/2) - offset)
-    local pos = Vector3.new(x, 10, z)
+    local x = cframe.Position.X + rng:NextInteger(math.clamp((-size.X/2) + args.offset, -99e99, 0), math.clamp((size.X/2) - args.offset, 0, 99e99))
+    local z = cframe.Position.Z + rng:NextInteger(math.clamp((-size.Z/2) + args.offset, -99e99, 0), math.clamp((size.Z/2) - args.offset, 0, 99e99))
+    local pos = Vector3.new(x, 100, z)
 
     local RayOrigin = pos
-    local RayDirection = Vector3.new(0, -100, 0)
+    local RayDirection = Vector3.new(0, -1000, 0)
 
     local Params = RaycastParams.new()
     Params.FilterType = Enum.RaycastFilterType.Whitelist
-    Params.FilterDescendantsInstances = {level.Floor:GetChildren()}
+
+    if args.filter then
+        Params.FilterDescendantsInstances = args.filter
+    elseif args.model then
+        if typeof(args.model) == "Instance" then
+            Params.FilterDescendantsInstances = {args.model:GetChildren()}
+        else
+            Params.FilterDescendantsInstances = args.model
+        end
+    else
+        Params.FilterDescendantsInstances = {level.Floor:GetChildren()}
+    end
 
     local Result = workspace:Raycast(RayOrigin, RayDirection, Params)
     return Result
@@ -198,6 +202,20 @@ function EventService.getClosestPlayer(position, players)
     end
 
     return closestPlayer
+end
+
+function EventService.positionVisual(position)
+    local part = Instance.new("Part")
+    part.Size = Vector3.new(1,1,1)
+    part.BrickColor = BrickColor.new("Bright red")
+    part.Anchored = true
+    part.CanCollide = false
+    part.Parent = workspace
+    if typeof(position) == "Vector3" then
+        part.Position = position
+    else
+        part.CFrame = position
+    end
 end
 
 return EventService
