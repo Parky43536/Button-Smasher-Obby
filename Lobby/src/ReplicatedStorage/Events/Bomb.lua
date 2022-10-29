@@ -14,7 +14,7 @@ local Event = {}
 function Event.Main(levelNum, level, data)
     local rlp = EventService.randomLevelPoint(level)
     if rlp then
-        local bomb = Assets.Levels.Bomb:Clone()
+        local bomb = Assets.Obstacles.Bomb:Clone()
         bomb.Position = rlp.Position + Vector3.new(0, 3.5, 0)
         bomb.Parent = workspace.Misc
 
@@ -28,7 +28,7 @@ function Event.Main(levelNum, level, data)
             end
         end
 
-        local particle = Assets.Levels.Explosion:Clone()
+        local particle = Assets.Obstacles.Explosion:Clone()
         particle:PivotTo(bomb.CFrame)
         particle.Parent = workspace
 

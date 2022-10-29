@@ -28,22 +28,22 @@ end
 
 function LevelService.OpenDoors(level)
     task.spawn(function()
-        local DoorR = level.DoorR
-        local DoorL = level.DoorL
+        local DoorR = level.Door.DoorR
+        local DoorL = level.Door.DoorL
 
         task.spawn(function()
             for i = 1 , General.DoorTime do
-                level.Timer.Front.Label.Text = General.DoorTime - i
-                level.Timer.Back.Label.Text = General.DoorTime - i
+                level.Door.Timer.Front.Label.Text = General.DoorTime - i
+                level.Door.Timer.Back.Label.Text = General.DoorTime - i
 
-                level.Timer.Front.Enabled = true
-                level.Timer.Back.Enabled = true
+                level.Door.Timer.Front.Enabled = true
+                level.Door.Timer.Back.Enabled = true
 
                 task.wait(1)
             end
 
-            level.Timer.Front.Enabled = false
-            level.Timer.Back.Enabled = false
+            level.Door.Timer.Front.Enabled = false
+            level.Door.Timer.Back.Enabled = false
         end)
 
         local tweenInfo = TweenInfo.new(2)

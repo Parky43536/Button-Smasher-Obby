@@ -16,7 +16,7 @@ local touchCooldown = {}
 function Event.Main(levelNum, level, data)
     local rlp = EventService.randomLevelPoint(level)
     if rlp then
-        local spike = Assets.Levels.Spike:Clone()
+        local spike = Assets.Obstacles.Spike:Clone()
         spike.Position = rlp.Position - Vector3.new(0, spike.Size.Y / 2, 0)
         spike.Parent = workspace.Misc
 

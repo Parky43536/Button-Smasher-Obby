@@ -17,7 +17,7 @@ function Event.Main(levelNum, level, data)
     local rOS1 = EventService.randomObstacleSpawner(levelNum, level)
     local rOS2 = EventService.randomObstacleSpawner(levelNum, level)
     if rOS1 and rOS2 then
-        local laserWall = Assets.Levels.LaserWall:Clone()
+        local laserWall = Assets.Obstacles.LaserWall:Clone()
         laserWall.Pillar1:SetPrimaryPartCFrame(rOS1.CFrame)
         laserWall.Pillar2:SetPrimaryPartCFrame(rOS2.CFrame)
 

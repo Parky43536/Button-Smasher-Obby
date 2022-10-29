@@ -40,11 +40,19 @@ local function playerAdded(newPlayer)
             end
 
             if currentLevel ~= 1 then
-                local physicalLevel = workspace.Levels:FindFirstChild(currentLevel)
+                local level = workspace.Levels:FindFirstChild(currentLevel)
+
+                if not level then
+                    repeat
+                        level = workspace.Levels:FindFirstChild(currentLevel)
+                        task.wait()
+                    until level
+                end
+
                 repeat
-                    newPlayer.Character:PivotTo(physicalLevel.Spawn.CFrame)
+                    newPlayer.Character:PivotTo(level.Floor.Spawn.CFrame)
                     task.wait()
-                until (newPlayer.Character:GetPivot().Position - physicalLevel.Spawn.Position).Magnitude < 10
+                until (newPlayer.Character:GetPivot().Position - level.Floor.Spawn.Position).Magnitude < 10
             end
         end)
     end

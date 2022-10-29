@@ -16,14 +16,14 @@ local touchCooldown = {}
 function Event.Main(levelNum, level, data)
     local rlp = EventService.randomLevelPoint(level)
     if rlp then
-        local lava = Assets.Levels.Lava:Clone()
+        local lava = Assets.Obstacles.Lava:Clone()
         local rng = Random.new()
         if rng:NextInteger(1, 2) == 1 then
-            lava.Position = Vector3.new(rlp.Position.X, rlp.Position.Y, level.Floor.Position.Z)
-            lava.Size = Vector3.new(lava.Size.X, lava.Size.Y, level.Floor.Size.Z - 0.01)
+            lava.Position = Vector3.new(rlp.Position.X, rlp.Position.Y, rlp.Instance.Position.Z)
+            lava.Size = Vector3.new(lava.Size.X, lava.Size.Y, rlp.Instance.Size.Z - 0.01)
         else
-            lava.Position = Vector3.new(level.Floor.Position.X, rlp.Position.Y, rlp.Position.Z)
-            lava.Size = Vector3.new(level.Floor.Size.X - 0.01, lava.Size.Y, lava.Size.Z)
+            lava.Position = Vector3.new(rlp.Instance.Position.X, rlp.Position.Y, rlp.Position.Z)
+            lava.Size = Vector3.new(rlp.Instance.Size.X - 0.01, lava.Size.Y, lava.Size.Z)
         end
 
         lava.Parent = workspace.Misc

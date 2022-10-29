@@ -14,11 +14,11 @@ local Event = {}
 local touchCooldown = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = EventService.randomLevelPoint(level, data.size/2)
+    local rlp = EventService.randomLevelPoint(level)
     if rlp then
         local touchConnection
 
-        local acid = Assets.Levels.Acid:Clone()
+        local acid = Assets.Obstacles.Acid:Clone()
         acid.Position = rlp.Position
         acid.Parent = workspace.Misc
 

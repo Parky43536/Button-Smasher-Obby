@@ -57,13 +57,76 @@ function EventService.randomObstacleSpawner(levelNum, level)
     return pickedSpawner
 end
 
-function EventService.randomLevelPoint(level, offset)
-    local rng = Random.new()
-    local floor = level.Floor
-    if not offset then offset = 2 end
+function EventService.getBoundingBox(model, orientation)
+	if typeof(model) == "Instance" then
+		model = model:GetDescendants()
+	end
+	if not orientation then
+		orientation = CFrame.new()
+	end
+	local abs = math.abs
+	local inf = math.huge
 
-    local x = floor.Position.X + rng:NextInteger((-floor.Size.X/2) + offset, (floor.Size.X/2) - offset)
-    local z = floor.Position.Z + rng:NextInteger((-floor.Size.Z/2) + offset, (floor.Size.Z/2) - offset)
+	local minx, miny, minz = inf, inf, inf
+	local maxx, maxy, maxz = -inf, -inf, -inf
+
+	for _, obj in pairs(model) do
+		if obj:IsA("BasePart") then
+			local cf = obj.CFrame
+			cf = orientation:toObjectSpace(cf)
+			local size = obj.Size
+			local sx, sy, sz = size.X, size.Y, size.Z
+
+			local x, y, z, R00, R01, R02, R10, R11, R12, R20, R21, R22 = cf:components()
+
+			local wsx = 0.5 * (abs(R00) * sx + abs(R01) * sy + abs(R02) * sz)
+			local wsy = 0.5 * (abs(R10) * sx + abs(R11) * sy + abs(R12) * sz)
+			local wsz = 0.5 * (abs(R20) * sx + abs(R21) * sy + abs(R22) * sz)
+
+			if minx > x - wsx then
+				minx = x - wsx
+			end
+			if miny > y - wsy then
+				miny = y - wsy
+			end
+			if minz > z - wsz then
+				minz = z - wsz
+			end
+
+			if maxx < x + wsx then
+				maxx = x + wsx
+			end
+			if maxy < y + wsy then
+				maxy = y + wsy
+			end
+			if maxz < z + wsz then
+				maxz = z + wsz
+			end
+		end
+	end
+
+	local omin, omax = Vector3.new(minx, miny, minz), Vector3.new(maxx, maxy, maxz)
+	local omiddle = (omax+omin)/2
+	local wCf = orientation - orientation.p + orientation:pointToWorldSpace(omiddle)
+	local size = (omax-omin)
+
+    --[[local part = Instance.new("Part")
+    part.CanCollide = false
+    part.Transparency = 0.5
+    part.Size = size
+    part.CFrame = wCf
+    part.Anchored = true
+    part.Parent = workspace]]
+
+	return wCf, size
+end
+
+function EventService.randomLevelPoint(level)
+    local rng = Random.new()
+    local cframe, size = EventService.getBoundingBox(level.Floor)
+
+    local x = cframe.Position.X + rng:NextInteger(-size.X/2, size.X/2)
+    local z = cframe.Position.Z + rng:NextInteger(-size.Z/2, size.Z/2)
     local pos = Vector3.new(x, 10, z)
 
     local RayOrigin = pos
@@ -71,7 +134,7 @@ function EventService.randomLevelPoint(level, offset)
 
     local Params = RaycastParams.new()
     Params.FilterType = Enum.RaycastFilterType.Whitelist
-    Params.FilterDescendantsInstances = {floor}
+    Params.FilterDescendantsInstances = {level.Floor:GetChildren()}
 
     local Result = workspace:Raycast(RayOrigin, RayDirection, Params)
     return Result

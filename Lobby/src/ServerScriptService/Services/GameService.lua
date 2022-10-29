@@ -12,7 +12,7 @@ local Assets = ReplicatedStorage.Assets
 
 local Utility = ReplicatedStorage:WaitForChild("Utility")
 local General = require(Utility.General)
-local TweenService = require(Utility.TweenService)
+local EventService = require(Utility.EventService)
 
 local GameService = {}
 
@@ -41,11 +41,11 @@ function GameService.PressButton(levelNum, level, player, args)
         levels[levelNum].LastPress[player] = tick()
 
         if General.playerCheck(player) and levels[levelNum].Presses > 0 then
-            LevelService.PressButton(level.Button)
+            LevelService.PressButton(level.Floor.Button.Button)
             LevelService.ButtonEvent(levelNum, level, player)
 
             levels[levelNum].Presses = math.clamp(levels[levelNum].Presses - args.power, 0, 99e99)
-            level.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
+            level.Floor.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
 
             if levels[levelNum].Presses == 0 then
                 task.spawn(function()
@@ -56,7 +56,7 @@ function GameService.PressButton(levelNum, level, player, args)
 
                     levels[levelNum].DoorOpened = false
                     levels[levelNum].Presses = General.PressesCalc(levelNum)
-                    level.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
+                    level.Floor.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
                 end)
             end
         end
@@ -64,7 +64,7 @@ function GameService.PressButton(levelNum, level, player, args)
 end
 
 function GameService.SetUpButton(levelNum, level)
-    level.Button.ClickDetector.MouseClick:connect(function(player)
+    level.Floor.Button.Button.ClickDetector.MouseClick:connect(function(player)
         GameService.PressButton(levelNum, level, player)
 
         if autoClicker[player] ~= levelNum then autoClicker[player] = nil end
@@ -85,7 +85,7 @@ function GameService.SetUpButton(levelNum, level)
 end
 
 function GameService.SetUpSpawn(levelNum, level)
-    level.Checkpoint.Touched:Connect(function(hit)
+    level.Door.Checkpoint.Touched:Connect(function(hit)
         local player = game.Players:GetPlayerFromCharacter(hit.Parent)
 	    if player and levels[levelNum].DoorOpened then
             DataManager:SetSpawn(player, levelNum + 1)
@@ -94,21 +94,24 @@ function GameService.SetUpSpawn(levelNum, level)
 end
 
 function GameService.SetUpGame()
+    local lastCFrame = CFrame.new(0, 0, 0)
     for levelNum = 1 , General.Levels do
         levels[levelNum] = {Presses = General.PressesCalc(levelNum), LastPress = {}, DoorOpened = false}
 
         local level = Assets.Levels.Level:Clone()
+        local cframe, size = EventService.getBoundingBox(level)
         level.Name = levelNum
-        level:PivotTo(CFrame.new(0, 0, -44 * (levelNum - 1)))
+        level:PivotTo(lastCFrame)
+        lastCFrame = level:GetPivot() + Vector3.new(0, 0, -size.Z)
 
-        level.Level.Front.Label.Text = levelNum
-        level.Level.Back.Label.Text = levelNum
-        level.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
+        level.Door.Level.Front.Label.Text = levelNum
+        level.Door.Level.Back.Label.Text = levelNum
+        level.Floor.Button.Button.Top.Label.Text = comma_value(levels[levelNum].Presses)
 
         if General.Signs[levelNum] then
-            level.Sign.Top.Label.Text = General.Signs[levelNum]
+            level.Door.Sign.Top.Label.Text = General.Signs[levelNum]
         else
-            level.Sign:Destroy()
+            level.Door.Sign:Destroy()
         end
 
         GameService.SetUpButton(levelNum, level)

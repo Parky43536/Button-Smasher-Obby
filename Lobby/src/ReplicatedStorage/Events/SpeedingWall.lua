@@ -12,11 +12,12 @@ local AudioService = require(Utility.AudioService)
 local Event = {}
 
 function Event.Main(levelNum, level, data)
-    local rlp = EventService.randomLevelPoint(level, 6)
+    local rlp = EventService.randomLevelPoint(level)
     if rlp then
-        local wall = Assets.Levels.SpeedingWall:Clone()
+        local cframe, size = EventService.getBoundingBox(level.Floor)
+        local wall = Assets.Obstacles.SpeedingWall:Clone()
         wall.BrickColor = BrickColor.random()
-        wall.CFrame = level.Floor.CFrame
+        wall.CFrame = cframe
         wall.Position = Vector3.new(wall.Position.X, rlp.Position.Y + wall.Size.Y/2, rlp.Position.Z)
 
         local rng = Random.new()
@@ -25,11 +26,11 @@ function Event.Main(levelNum, level, data)
         else
             wall.CFrame *= CFrame.Angles(0, math.rad(-90), 0)
         end
-        wall.CFrame += wall.CFrame.lookVector * -level.Floor.Size.X
+        wall.CFrame += wall.CFrame.lookVector * -size.X
 
         wall.Parent = workspace.Misc
 
-        local goal = {CFrame = wall.CFrame + wall.CFrame.lookVector * level.Floor.Size.X * 2}
+        local goal = {CFrame = wall.CFrame + wall.CFrame.lookVector * size.X * 2}
         local properties = {Time = data.travelTime}
         TweenService.tween(wall, goal, properties)
 

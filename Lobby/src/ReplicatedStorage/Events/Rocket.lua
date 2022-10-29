@@ -24,7 +24,7 @@ local function destroyRocket(rocket, touchConnection, data)
             end
         end
 
-        local particle = Assets.Levels.Explosion:Clone()
+        local particle = Assets.Obstacles.Explosion:Clone()
         particle:PivotTo(rocket.CFrame)
         particle.Parent = workspace
 
@@ -48,10 +48,11 @@ end
 function Event.Main(levelNum, level, data)
     local rOS = EventService.randomObstacleSpawner(levelNum, level)
     if rOS then
-        local rocket = Assets.Levels.Rocket:Clone()
+        local rocket = Assets.Obstacles.Rocket:Clone()
         rocket:SetPrimaryPartCFrame(rOS.CFrame)
 
-        local playersInLevel = EventService.getPlayersInSize(level.Floor.CFrame, level.Floor.Size + Vector3.new(4, 100, 4))
+        local cframe, size = EventService.getBoundingBox(level.Floor)
+        local playersInLevel = EventService.getPlayersInSize(cframe, size + Vector3.new(4, 100, 4))
         local targetPlayer = EventService.getClosestPlayer(rocket.Stand.PrimaryPart.Position, playersInLevel)
         local touchConnection = false
 
