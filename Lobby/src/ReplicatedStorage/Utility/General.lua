@@ -6,6 +6,7 @@ local General = {}
 
 General.Levels = 100
 General.DoorTime = 20
+General.RewardCash = 100
 
 --Stats---------------------------------------------
 
@@ -51,7 +52,7 @@ end
 
 General.Signs = {
     [1] = "Click on the button 10 times to open the door",
-    [2] = "Collect coins to buy upgrades",
+    [2] = "Progress levels and collect coins to buy upgrades",
     [3] = "Watch out for bombs and other obstacles",
     [5] = "Teleport with the levels button",
     [7] = "Spikes will now appear",

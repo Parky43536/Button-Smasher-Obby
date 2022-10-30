@@ -52,6 +52,12 @@ function GameService.PressButton(levelNum, level, player, args)
                     LevelService.OpenDoors(level)
                     levels[levelNum].DoorOpened = true
 
+                    local cframe, size = EventService.getBoundingBox(level.Floor)
+                    local playersInLevel = EventService.getPlayersInSize(cframe, size + Vector3.new(4, 100, 4))
+                    for _, playerInRoom in playersInLevel do
+                        DataManager:SetSpawn(player, levelNum + 1)
+                    end
+
                     task.wait(General.DoorTime)
 
                     levels[levelNum].DoorOpened = false

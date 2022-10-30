@@ -99,13 +99,16 @@ function DataManager:SetSpawn(player, levelNum)
 		DataManager:SetValue(player, "Level", levelNum)
 		PlayerValues:SetValue(player, "Level", levelNum, "playerOnly")
 
+		DataManager:GiveCash(player, General.RewardCash, {noMulti = true})
+
 		local level = player:FindFirstChild("leaderstats"):FindFirstChild("Level")
 		level.Value += 1
 	end
 end
 
-function DataManager:GiveCash(player, cash)
-	if cash > 0 then
+function DataManager:GiveCash(player, cash, args)
+	if not args then args = {} end
+	if cash > 0 and not args.noMulti then
 		cash = math.floor(cash + (cash * (PlayerValues:GetValue(player, "CMulti") / 10)))
 	end
 
